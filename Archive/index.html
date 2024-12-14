@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Greece Cruise Itinerary</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet-geometryutil@0.10.1/src/leaflet.geometryutil.js"></script>
+    <script src="https://unpkg.com/leaflet-polylinedecorator@1.6.0/dist/leaflet.polylineDecorator.js"></script>
+
+</head>
+<body>
+    <header>
+        <h1>7 Night Best of Greece Cruise</h1>
+        <p>Explore each port and nearby attractions.</p>
+    </header>
+
+    <div id="map"></div>
+
+    <aside id="info-sidebar">
+        <h2>Port Details</h2>
+        <div id="port-info">
+            <p>Select a port on the map to view details</p>
+        </div>
+        <h3>Nearby Attractions</h3>
+        <ul id="attraction-list"></ul>
+    </aside>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="js/csv-loader.js"></script>
+    <script src="js/map.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>

@@ -1,7 +1,7 @@
 day,date,port,country,attraction,type,description,arrival,departure,latitude,longitude
-1,2024-06-01,Athens (Piraeus),Greece,Acropolis of Athens,Historical,"Ancient citadel with Parthenon and other ruins",08:00,18:00,37.9421,23.6465
-2,2024-06-02,Santorini,Greece,Oia Village,Cultural,"Famous for its whitewashed houses and sunset views",08:00,18:00,36.3932,25.4615
-3,2024-06-03,Ephesus (Kusadasi),Turkey,Temple of Artemis,Historical,"One of the Seven Wonders of the Ancient World",08:00,18:00,37.8594,27.2566
+1,2024-06-01,Athens (Piraeus),Greece,Acropolis of Athens,Historical,"Ancient citadel with Parthenon and other ruins",08:00,18:00,37.9365963,23.6210059
+2,2024-06-02,Santorini,Greece,Oia Village,Cultural,"Famous for its whitewashed houses and sunset views",08:00,18:00,36.386160,25.430320
+3,2024-06-03,Ephesus (Kusadasi),Turkey,Temple of Artemis,Historical,"One of the Seven Wonders of the Ancient World",08:00,18:00,37.863179,27.260717
 4,2024-06-04,Mykonos,Greece,Mykonos Town,Cultural,"Known for its vibrant nightlife and beautiful beaches",08:00,18:00,37.4467,25.3289
 5,2024-06-05,Volos,Greece,Meteor Monasteries,Historical,"Monasteries perched atop rock formations",08:00,18:00,39.3610,22.9429
 6,2024-06-06,Thessaloniki,Greece,White Tower,Cultural,"Iconic symbol of Thessaloniki with a rich history",08:00,18:00,40.6401,22.9444
