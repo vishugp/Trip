@@ -1,3 +1,4 @@
+// Parse CSV for itinerary data
 function parseCSV(data) {
     const rows = data.split("\n").slice(1); // Skip header row
     return rows.map((row) => {
@@ -32,8 +33,9 @@ function parseCSV(data) {
     });
   }
   
+  // Parse CSV for local attractions
   function parseLocalAttractions(data) {
-    const rows = data.split("\n").slice(1); // Skip header row
+    const rows = data.split("\n").slice(1);
     return rows.map((row) => {
       const [name, latitude, longitude, time, notes] = row.split(",");
       return {
@@ -48,107 +50,180 @@ function parseCSV(data) {
     });
   }
   
-  function getMarkerIcon() {
-    // Default small circle icon for attractions
-    return {
-      path: google.maps.SymbolPath.CIRCLE,
-      fillColor: "blue", // Color can be adjusted based on your needs
-      fillOpacity: 0.5,
-      strokeColor: "white",
-      strokeWeight: 1,
-      scale: 7, // Small circle
+  // Draw a geodesic (curved) route for waterway routes
+  function drawCurvedRoute(map, start, end, color) {
+    // Calculate control point for the curve
+    const midPoint = {
+      lat: (start.lat + end.lat) / 2,
+      lng: (start.lng + end.lng) / 2,
     };
+  
+    const offset = 0.2; // Adjust for curvature
+    const dx = end.lng - start.lng;
+    const dy = end.lat - start.lat;
+  
+    const controlPoint = {
+      lat: midPoint.lat - offset * dx,
+      lng: midPoint.lng + offset * dy,
+    };
+  
+    // Initialize the curve points with the start point
+    const curvePoints = [{ lat: start.lat, lng: start.lng }];
+  
+    // Generate intermediate points along the quadratic Bézier curve
+    const steps = 50; // Number of points along the curve
+    for (let t = 0; t <= 1; t += 1 / steps) {
+      const lat =
+        Math.pow(1 - t, 2) * start.lat +
+        2 * (1 - t) * t * controlPoint.lat +
+        Math.pow(t, 2) * end.lat;
+  
+      const lng =
+        Math.pow(1 - t, 2) * start.lng +
+        2 * (1 - t) * t * controlPoint.lng +
+        Math.pow(t, 2) * end.lng;
+  
+      curvePoints.push({ lat, lng });
+    }
+  
+    // Add the endpoint explicitly to ensure it connects
+    curvePoints.push({ lat: end.lat, lng: end.lng });
+  
+    // Create a polyline with the curved points
+    const polyline = new google.maps.Polyline({
+      path: curvePoints,
+      geodesic: false,
+      strokeColor: "indigo",
+      strokeOpacity: 0.75,
+      strokeWeight: 1.5,
+    });
+  
+    polyline.setMap(map);
+    return polyline;
   }
   
+  
+  // Draw a land route using Google Directions Service
   function drawRoute(directionsService, directionsRenderer, start, end, color) {
     const request = {
       origin: start,
       destination: end,
       travelMode: google.maps.TravelMode.DRIVING,
-      waypoints: [], // No waypoints for direct route
     };
-    
+  
     const polylineOptions = {
       strokeColor: color,
-      strokeOpacity: 0.1,
-      strokeWeight: 7,
+      strokeOpacity: 0.7,
+      strokeWeight: 3,
     };
   
-    directionsService.route(request, (result, status) => {
-      if (status === google.maps.DirectionsStatus.OK) {
-        directionsRenderer.setDirections(result);
+    return new Promise((resolve, reject) => {
+      directionsService.route(request, (result, status) => {
+        if (status === google.maps.DirectionsStatus.OK) {
+          directionsRenderer.setDirections(result);
   
-        // Modify polyline for custom color (only for outbound route)
-        const routePolyline = result.routes[0].overview_path;
-        const polyline = new google.maps.Polyline(polylineOptions);
-        polyline.setPath(routePolyline);
-        polyline.setMap(directionsRenderer.getMap());
+          // Customize polyline
+          const routePolyline = result.routes[0].overview_path;
+          const polyline = new google.maps.Polyline(polylineOptions);
+          polyline.setPath(routePolyline);
+          polyline.setMap(directionsRenderer.getMap());
   
-        // Calculate the time taken for the round trip
-        const duration = result.routes[0].legs[0].duration.text; // Time taken for one-way trip
-        const roundTripDuration = `Round trip: ${duration} (to and fro)`;
-  
-        // Create an InfoWindow to show the round trip duration
-        const infoWindow = new google.maps.InfoWindow({
-          content: roundTripDuration,
-          position: routePolyline[0], // InfoWindow position at the start of the route
-        });
-  
-        // Add click event to show the InfoWindow
-        google.maps.event.addListener(polyline, "click", () => {
-          infoWindow.open(directionsRenderer.getMap());
-        });
-      } else {
-        console.error("Directions request failed due to " + status);
-      }
+          // Calculate trip duration
+          const duration = result.routes[0].legs[0].duration.text;
+          resolve({ duration, polyline });
+        } else {
+          console.log("Directions request failed due to " + status);
+          reject("Failed to retrieve directions");
+        }
+      });
     });
   }
   
-  function fetchAndRenderLocalAttractions(map, portPosition, directionsService) {
+  // Display local attractions for a port
+  function LocalAttractions(map, portPosition, directionsService) {
     fetch("data/santorini_attractions.csv")
       .then((response) => response.text())
       .then((csvData) => {
         const attractions = parseLocalAttractions(csvData);
-        attractions.forEach((attraction, index) => {
-          const distance = google.maps.geometry.spherical.computeDistanceBetween(
-            new google.maps.LatLng(portPosition.lat, portPosition.lng),
-            new google.maps.LatLng(attraction.position.lat, attraction.position.lng)
-          );
+        attractions.forEach((attraction) => {
+          const marker = new google.maps.Marker({
+            position: attraction.position,
+            map: map,
+            icon: {
+              path: google.maps.SymbolPath.CIRCLE,
+              fillColor: "indigo",
+              fillOpacity: 0.7,
+              strokeColor: "white",
+              strokeWeight: 1,
+              scale: 7,
+            },
+            title: attraction.name,
+          });
   
-          // Only show attractions within 10 km
-        //   if (distance <= 10000) {
-            // Marker with a small circle icon
-            const marker = new google.maps.Marker({
-              position: attraction.position,
-              map: map,
-              icon: getMarkerIcon(),
-              title: attraction.name,
+          const infoWindow = new google.maps.InfoWindow();
+          let hasRouteDrawn = false;
+          let currentRoute = null;
+  
+          marker.addListener("click", async () => {
+            if (!hasRouteDrawn) {
+              const directionsRenderer = new google.maps.DirectionsRenderer({
+                suppressMarkers: true,
+              });
+              directionsRenderer.setMap(map);
+  
+              try {
+                const { duration, polyline } = await drawRoute(
+                  directionsService,
+                  directionsRenderer,
+                  portPosition,
+                  attraction.position,
+                  "black"
+                );
+                hasRouteDrawn = true;
+                currentRoute = polyline;
+  
+                infoWindow.setContent(
+                  `<div><strong>${attraction.name}</strong><br/>
+                  Trip Time (1-way): ${duration}<br/>
+                  Time to Spend: ${attraction.time}<br/>
+                  ${attraction.notes}</div>`
+                );
+              } catch (error) {
+                console.log("Error drawing route:", error);
+                infoWindow.setContent("<div>Error loading route</div>");
+              }
+            }
+            infoWindow.open(map, marker);
+  
+            // Add listener to close button of the InfoWindow
+            google.maps.event.addListener(infoWindow, "closeclick", () => {
+              if (currentRoute) {
+                currentRoute.setMap(null); // Remove the route from the map
+                currentRoute = null;
+                // hasRouteDrawn = false;
+              }
             });
-  
-            // DirectionsRenderer for the outbound route (port -> attraction)
-            const directionsRenderer = new google.maps.DirectionsRenderer({ suppressMarkers: true });
-            directionsRenderer.setMap(map);
-  
-            // Assign a unique color for each route
-            const routeColor = getRouteColor(index);
-  
-            // Draw route from port to attraction with the unique color
-            drawRoute(directionsService, directionsRenderer, portPosition, attraction.position, routeColor);
-        //   }
+          });
         });
       });
   }
   
-  function getRouteColor(index) {
-    // Use a predefined set of colors based on the attraction index (can be expanded)
-    const routeColors = ["blue", "green", "purple", "orange", "red", "yellow"];
-    return routeColors[index % routeColors.length]; // Cycle through available colors
+  // Show port details in a side panel
+  function showPortDetails(port) {
+    document.getElementById("port-info").innerHTML = `
+      <h2>${port.port}, ${port.country}</h2>
+      <h3>Day ${port.day}</h3>
+      <h4>Arrival - Departure: ${port.arrival} to ${port.departure}</h4>
+      <p>${port.attraction} - ${port.type}</p>
+      <p>${port.description}</p>
+    `;
   }
   
+  // Initialize the map and render routes/ports
   function initMap() {
     const map = new google.maps.Map(document.getElementById("map"), {
       center: { lat: 37.9365963, lng: 25.6210059 },
-      zoom: 6,
+      zoom: 6.6,
     });
   
     const directionsService = new google.maps.DirectionsService();
@@ -158,20 +233,30 @@ function parseCSV(data) {
       .then((csvData) => {
         const ports = parseCSV(csvData);
   
-        // Loop through ports to calculate and display routes
+        // Draw routes between ports
         for (let i = 0; i < ports.length - 1; i++) {
-          const directionsRenderer = new google.maps.DirectionsRenderer({ suppressMarkers: false });
-          directionsRenderer.setMap(map);
+          const isWaterway = true; // Placeholder for logic to determine waterway routes
   
-          // Draw route from port to next port (with a default color)
-          drawRoute(
-            directionsService,
-            directionsRenderer,
-            ports[i].position,
-            ports[i + 1].position,
-            "blue" // Default route color for port-to-port
-          );
-          
+          if (isWaterway) {
+            drawCurvedRoute(
+              map,
+              ports[i].position,
+              ports[i + 1].position,
+              "black"
+            );
+          } else {
+            const directionsRenderer = new google.maps.DirectionsRenderer({
+              suppressMarkers: true,
+            });
+            directionsRenderer.setMap(map);
+            drawRoute(
+              directionsService,
+              directionsRenderer,
+              ports[i].position,
+              ports[i + 1].position,
+              "blue"
+            );
+          }
         }
   
         // Add markers for each port
@@ -182,18 +267,12 @@ function parseCSV(data) {
             title: `${port.port}`,
           });
   
-          marker.addListener("dblclick", () => {
-            // Zoom in and center on the port
+          marker.addListener("click", () => {
             map.setZoom(12);
             map.setCenter(port.position);
-  
-            // Fetch and render local attractions and routes
-            fetchAndRenderLocalAttractions(map, port.position, directionsService);
+            showPortDetails(port);
+            LocalAttractions(map, port.position, directionsService);
           });
-  
-          // Always display the local attractions and routes
-          fetchAndRenderLocalAttractions(map, port.position, directionsService);
-          fetchAndRenderLocalAttractions(map, port.position, directionsService);
         });
       });
   }
