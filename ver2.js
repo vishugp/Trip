@@ -1,4 +1,14 @@
 // Parse CSV for itinerary data
+const typeColors = {
+  Nature: "green",
+  History: "grey",
+  Chill: "blue",
+  Religion: "Red",
+  Shopping: "brown",
+  default: "black", // Fallback color
+};
+
+
 function parseCSV(data) {
     const rows = data.split("\n").slice(1); // Skip header row
     return rows.map((row) => {
@@ -116,12 +126,7 @@ function parseCSV(data) {
         );
   
         // Define colors for each type of attraction
-        const typeColors = {
-          Nature: "green",
-          History: "brown",
-          Chill: "blue",
-          default: "gray", // Fallback color
-        };
+        
   
         // Loop through and display filtered attractions
         filteredAttractions.forEach((attraction, index) => {
@@ -133,16 +138,16 @@ function parseCSV(data) {
             icon: {
               path: google.maps.SymbolPath.CIRCLE,
               fillColor: markerColor,
-              fillOpacity: 0.9,
-              strokeColor: "white",
-              strokeWeight: 1,
-              scale: 10,
+              fillOpacity: 1,
+              strokeColor: "black",
+              strokeWeight: 2,
+              scale: 12,
             },
             title: attraction.name,
             label: {
               text: (index + 1).toString(), // Number on marker
               color: "white",
-              fontSize: "14px",
+              fontSize: "16px",
               fontWeight: "bold",
               className: "marker-number"
             },
@@ -209,26 +214,20 @@ function parseCSV(data) {
   function showPortDetails(port) {
     getLocalAttractions(port.port, (attractions) => {
       // Start with port details
-      let content = `
-        <h2>${port.port}, ${port.country}</h2>
-        <h3>Day ${port.day}</h3>
+      let main_content = `
+        <h3>${port.port}, ${port.country} - Day ${port.day}</h3>
         <h4>Arrival ${port.arrival} - Departure ${port.departure}</h4>
-        <p>${port.attraction} - ${port.type}</p>
-        <p>${port.description}</p>
-        <hr/>
-        <h3>Top Local Attractions</h3>
       `;
+
+      let content = `
+      <h3>Top Local Attractions</h3>
+      `
   
       // Add attractions list with numbers
       if (attractions.length > 0) {
         attractions.forEach((attraction, index) => {
           // Define colors for each type of attraction
-          const typeColors = {
-            Nature: "green",
-            History: "brown",
-            Chill: "blue",
-            default: "gray", // Fallback color
-          };
+          
   
           const markerColor = typeColors[attraction.type] || typeColors.default;
   
@@ -243,43 +242,57 @@ function parseCSV(data) {
         content += "<p>WIP</p>";
       }
   
+      legend = `
+      <hr/>
+      Attraction Type Legend:<br>
+        <span style="color: green;">&#10140; Nature</span> <br>
+        <span style="color: gray;">&#10140; History</span> <br>
+        <span style="color: red;">&#10140; Religion</span> <br>
+        <span style="color: blue;">&#10140; Chill</span> <br>
+        <span style="color: brown;">&#10140; Shopping</span> <br>
+        <span style="color: rgb(0, 0, 0);">&#10140; Others</span>
+      `
+      
       // Update the info bar content
       document.getElementById("port-info").innerHTML = content;
+      document.getElementById("port-info2").innerHTML = main_content + legend;
     });
   }
   
   
   
-  function loadFinalCurve(map, savedPoints) {
-    const finalCurve = new google.maps.Polyline({
-      path: savedPoints, // Control points define the path
-      strokeColor: "blue",
-      strokeOpacity: 0.8,
-      strokeWeight: 2,
-      map: map,
+
+
+
+  function plotPaths(map, paths) {
+    paths.forEach(path => {
+        const polyline = new google.maps.Polyline({
+            path: path, // Each path is an array of lat-lng objects
+            strokeOpacity: 0, // Hide the main line
+            icons: [
+                {
+                    icon: {
+                        path: google.maps.SymbolPath.CIRCLE, // Dotted pattern
+                        scale: 2, // Size of the dots
+                        fillOpacity: 1,
+                        strokeOpacity: 1,
+                        fillColor: "blue",
+                        strokeColor: "blue"
+                    },
+                    offset: "0", // Start of the pattern
+                    repeat: "10px" // Spacing between dots
+                }
+            ],
+            map: map,
+        });
     });
-  
-    // // Add Start (green) and End (red) markers only
-    // new google.maps.Marker({
-    //   position: savedPoints[0], // Start Point
-    //   map: map,
-    //   title: "Start Point",
-    //   icon: "http://maps.google.com/mapfiles/ms/icons/green-dot.png",
-    // });
-  
-    // new google.maps.Marker({
-    //   position: savedPoints[savedPoints.length - 1], // End Point
-    //   map: map,
-    //   title: "End Point",
-    //   icon: "http://maps.google.com/mapfiles/ms/icons/red-dot.png",
-    // });
-  }
+}
 
   
   // Initialize the map and render routes/ports
   function initMap() {
     const map = new google.maps.Map(document.getElementById("map"), {
-      center: { lat: 37.9365963, lng: 25.6210059 },
+      center: { lat: 38.9365963, lng: 25.6210059 },
       zoom: 6.6,
     });
   
@@ -290,60 +303,39 @@ function parseCSV(data) {
       .then((csvData) => {
         const ports = parseCSV(csvData);
   
-        // Draw routes between ports
-        for (let i = 0; i < ports.length - 1; i++) {
-          const isWaterway = true; // Placeholder for logic to determine waterway routes
-  
-          // if (isWaterway) {
-          //   drawCurvedRoute(
-          //     map,
-          //     ports[i].position,
-          //     ports[i + 1].position,
-          //     "black"
-          //   );
-          // } else {
-          //   const directionsRenderer = new google.maps.DirectionsRenderer({
-          //     suppressMarkers: true,
-          //   });
-          //   directionsRenderer.setMap(map);
-          //   drawRoute(
-          //     directionsService,
-          //     directionsRenderer,
-          //     ports[i].position,
-          //     ports[i + 1].position,
-          //     "blue"
-          //   );
-          // }
-        }
-        const savedPoints = [
-          {"lat":37.9447622,"lng":23.6383111},
-          {"lat":37.935872223371085,"lng":23.61891661767577},
-          {"lat":37.586329017795244,"lng":23.68191959628906},
-          {"lat":37.337567931247754,"lng":23.765865262890628},
-          {"lat":37.01399540672741,"lng":23.921908707812513},
-          {"lat":36.699357434733216,"lng":24.14352679873045},
-          {"lat":36.519080799725764,"lng":24.442392509277333},
-          {"lat":36.43814737116244,"lng":24.817132548437495},
-          {"lat":36.382344294429245,"lng":25.139344206250005},
-          {"lat":36.368243769463376,"lng":25.32079353496095},
-          {"lat":36.39109941783127,"lng":25.422549069421407},
-          {"lat":36.38919886699087,"lng":25.428447818107593},
-          {"lat":36.38819886699087,"lng":25.428447818107593},
-          {"lat":36.38719886699087,"lng":25.428447818107593},
-          {"lat":36.38619886699087,"lng":25.428447818107593}];
-      
-        // Enable draggable curve with control points
-        // enableMultiControlCurve(map, start, end);
-        loadFinalCurve(map, savedPoints);
-        
-  
         // Add markers for each port
-        ports.forEach((port) => {
+        ports.forEach((port, index) => {
+          // const marker = new google.maps.Marker({
+          //   position: port.position,
+          //   map: map,
+          //   title: `${port.port}`,
+          // });
           const marker = new google.maps.Marker({
             position: port.position,
             map: map,
-            title: `${port.port}`,
+            icon: {
+              // path: google.maps.SymbolPath.BACKWARD_OPEN_ARROW,
+              url: "images/port-icon.png",
+              scaledSize: new google.maps.Size(50, 50),
+              labelOrigin: new google.maps.Point(25, -10),
+            },
+            // title: attraction.name,
+            label: {
+              text: "Day " + (index + 1).toString(), // Number on marker
+              color: "black",
+              fontSize: "16px",
+              fontWeight: "bold",
+              className: "marker-number"
+            },
           });
+
+          fetch('data/port2port_ctrl.json')
+          .then(response => response.json())
+          .then(data => {
+            console.log(data)
+              plotPaths(map, data);
+          })
+          .catch(error => console.error('Error loading JSON:', error));
 
   
           marker.addListener("click", () => {
