@@ -47,9 +47,10 @@ function parseCSV(data) {
   function parseLocalAttractions(data) {
     const rows = data.split("\n").slice(1);
     return rows.map((row) => {
-      const [name, type, port, latitude, longitude, time, notes, gview] = row.split(",");
+      const [name, rank, type, port, latitude, longitude, time, notes, gview] = row.split(",");
       return {
         name,
+        rank,
         type,
         port,
         position: {
@@ -85,6 +86,22 @@ function parseCSV(data) {
     allPaths = [];
   }
   
+
+  function toRoman(num) {
+    if (isNaN(num))
+      return NaN;
+      var digits = String(+num).split(""),
+          key = ["","C","CC","CCC","CD","D","DC","DCC","DCCC","CM",
+                "","X","XX","XXX","XL","L","LX","LXX","LXXX","XC",
+                "","I","II","III","IV","V","VI","VII","VIII","IX"],
+          roman = "",
+          i = 3;
+      while (i--)
+          roman = (key[+digits.pop() + (i * 10)] || "") + roman;
+      return Array(+digits.join("") + 1).join("M") + roman;
+}
+
+
   // Draw a land route using Google Directions Service
   function drawRoute(directionsService, directionsRenderer, start, end, color) {
 
@@ -134,6 +151,7 @@ function parseCSV(data) {
       });
   }
   
+  
   let addedAttractions = []; // For keeping track of planned attractions
   // Display local attractions for a port
   function LocalAttractions(map, portPosition, portName, directionsService, directionsRenderer) {
@@ -162,7 +180,8 @@ function parseCSV(data) {
           addAttractionToPath(draggedAttraction); 
         });
 
-      
+        
+        
 
       function addAttractionToPath(attraction) {
         if (!addedAttractions.some((a) => a.name === attraction.name)) {
@@ -172,7 +191,7 @@ function parseCSV(data) {
           const item = document.createElement("div");
           item.className = "path-item";
           item.style.display = "flex";  
-          item.innerText = `${index + 1}. ${attraction.name}`; 
+          item.innerText = `${toRoman(index + 1)}.  ${attraction.name} (${attraction.rank})`; 
           item.style.backgroundColor = typeColors[attraction.type] || typeColors.default;
       
           // Create a remove button
@@ -209,9 +228,9 @@ function parseCSV(data) {
           const draggableCircle = document.createElement("div");
           draggableCircle.className = "draggable-circle";
           draggableCircle.draggable = true;
-          draggableCircle.innerText = index + 1;
+          draggableCircle.innerText = `${index + 1}`;
           draggableCircle.style.backgroundColor = markerColor;
-          draggableCircle.style.borderBlockColor = "black";
+          draggableCircle.style.borderColor = "black";
           draggableCircle.dataset.attraction = JSON.stringify(attraction);
 
           draggableCircle.addEventListener("dragstart", (e) => {
