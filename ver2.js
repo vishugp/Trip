@@ -134,6 +134,7 @@ function parseCSV(data) {
       });
   }
   
+  let addedAttractions = []; // For keeping track of planned attractions
   // Display local attractions for a port
   function LocalAttractions(map, portPosition, portName, directionsService, directionsRenderer) {
     fetch("data/local_attractions.csv")
@@ -161,7 +162,7 @@ function parseCSV(data) {
           addAttractionToPath(draggedAttraction); 
         });
 
-      let addedAttractions = []; // For keeping track of planned attractions
+      
 
       function addAttractionToPath(attraction) {
         if (!addedAttractions.some((a) => a.name === attraction.name)) {
@@ -492,6 +493,7 @@ async function planRoute(map, directionsService, portPosition, addedAttractions,
             map.setZoom(12);
             map.setCenter(port.position);
             showPortDetails(port);
+            addedAttractions = [];
             LocalAttractions(map, port.position,port.port, directionsService, directionsRenderer);
           });
         });
