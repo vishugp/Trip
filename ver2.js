@@ -67,6 +67,7 @@ function parseCSV(data) {
   let directionsRenderer;
   let allMarkers = [];
   let allPaths = [];
+  let currport = ''
 
   function clearPaths() {
     // Clear directions from the map
@@ -79,8 +80,16 @@ function parseCSV(data) {
     allPaths.forEach((path) => {
       path.setMap(null);
     });
+    
   
     allPaths = [];
+  }
+
+  function clearMarkers() {
+    allMarkers.forEach((mark) => {
+      mark.setMap(null);
+    });
+    allMarkers = [];
   }
   
 
@@ -131,7 +140,7 @@ function parseCSV(data) {
           const duration = result.routes[0].legs[0].duration.text;
           resolve({ duration, polyline });
         } else {
-          console.log("Directions request failed due to " + status);
+          console.error("Directions request failed due to " + status);
           reject("Failed to retrieve directions");
         }
       });
@@ -153,7 +162,7 @@ function parseCSV(data) {
   
   let addedAttractions = []; // For keeping track of planned attractions
   // Display local attractions for a port
-  function LocalAttractions(map, portPosition, portName, directionsService, directionsRenderer) {
+  function LocalAttractions(map,  portName, directionsService, directionsRenderer) {
     fetch("data/local_attractions.csv")
       .then((response) => response.text())
       .then((csvData) => {
@@ -182,41 +191,77 @@ function parseCSV(data) {
         
         
 
-      function addAttractionToPath(attraction) {
-        if (!addedAttractions.some((a) => a.name === attraction.name)) {
-          addedAttractions.push(attraction);
-          const index = addedAttractions.length - 1;
+        function addAttractionToPath(attraction) {
+          if (!addedAttractions.some((a) => a.name === attraction.name)) {
+            addedAttractions.push(attraction);
+            const index = addedAttractions.length - 1;
+        
+            const item = document.createElement("div");
+            item.className = "path-item";
+            item.style.display = "flex";  
+            item.style.alignItems = "center"; // Vertically align elements
+            item.style.height = "15px";
+            item.style.backgroundColor = typeColors[attraction.type] || typeColors.default;
+        
+            // Create a text container for the attraction name
+            const textContainer = document.createElement("div");
+            textContainer.style.flex = "1"; // Take up all available space on the left
+            textContainer.innerText = `${attraction.name} [${attraction.rank}]`;
+        
+            // Time input field
+            const timeInput = document.createElement("input");
+            timeInput.type = "number";
+            timeInput.value = attraction.time || 0; // Default time in hours
+            timeInput.min = 0;
+            timeInput.step = 0.5; // Allow half-hour increments
+            timeInput.style.width = "35px"; // Adjust width as needed
+            timeInput.style.height = "15px";
+            timeInput.style.marginLeft = "10px"; // Space between the text and input
+            timeInput.style.marginRight = "10px"; // Space between input and button
+        
+            // Update time in `addedAttractions` array when input changes
+            timeInput.addEventListener("input", () => {
+              const updatedTime = parseFloat(timeInput.value) || 0; // Default to 0 if input is invalid
+              addedAttractions[index].time = updatedTime;
+              document.getElementById("route-summary").innerHTML = ``; // Clear summary on edit
+              document.getElementById("route-legs").innerHTML = ``; // Clear route summary
+              planRoute(map, directionsService, currport, addedAttractions, directionsRenderer, true);
 
-          const item = document.createElement("div");
-          item.className = "path-item";
-          item.style.display = "flex";  
-          item.innerText = `${toRoman(index + 1)}.  ${attraction.name} [${attraction.rank}]`; 
-          item.style.backgroundColor = typeColors[attraction.type] || typeColors.default;
-      
-          // Create a remove button
-          let removeButton = document.createElement("span");
-          removeButton.className = "remove-btn";
-          removeButton.innerText = "X";
-          removeButton.style.display = "flex";
-          // removeButton.style.top = "0px";
-          // removeButton.style.right = "10px";
-          removeButton.style.cursor = "pointer";
-          removeButton.style.marginLeft = "auto";
+            });
+        
+            // Remove button
+            const removeButton = document.createElement("span");
+            removeButton.className = "remove-btn";
+            removeButton.innerText = "X";
+            removeButton.style.cursor = "pointer";
+        
+            // Remove button functionality
+            removeButton.addEventListener("click", () => {
+              item.remove(); // Remove the item from the list
+              addedAttractions = addedAttractions.filter((a) => a.name !== attraction.name); // Update the addedAttractions array
+              document.getElementById("route-summary").innerHTML = ``; // Clear route summary
+              document.getElementById("route-legs").innerHTML = ``; // Clear route summary
+              
+              if (addedAttractions.length === 0) {
+                planRoute(map, directionsService, currport, [], directionsRenderer, false);
+                clearPaths();
+                map.setZoom(5);
+              } else{
+                planRoute(map, directionsService, currport, addedAttractions, directionsRenderer, true);
+              }
+            });
+        
+            // Assemble the item
+            item.appendChild(textContainer); // Left-aligned text
+            item.appendChild(timeInput); // Right-aligned time input
+            item.appendChild(removeButton); // Right-aligned remove button
+            pathZoneDiv.appendChild(item);
 
-          item.style.justifyContent = "space-between";
-          document.getElementById("route-summary").innerHTML = ``
-          removeButton.addEventListener("click", () => {
-            item.remove(); // Remove the item from the list
-            document.getElementById("route-summary").innerHTML = ``
-            addedAttractions = addedAttractions.filter(a => a.name !== attraction.name);  // Update the addedAttractions array
-          });
-      
-          // // Append the button to the item
-          item.appendChild(removeButton);
-          
-          pathZoneDiv.appendChild(item);
+            
+            planRoute(map, directionsService, currport, addedAttractions, directionsRenderer, true);
+            
+          }
         }
-      }
       
 
 
@@ -260,13 +305,13 @@ function parseCSV(data) {
             },
           });
   
+          allMarkers.push(marker);
           const infoWindow = new google.maps.InfoWindow();
           let hasRouteDrawn = false;
           let currentRoute = null;
           
           
           marker.addListener("click", async () => {
-            console.log(marker)
             // if (!hasRouteDrawn) {
               
   
@@ -274,7 +319,7 @@ function parseCSV(data) {
               const { duration, polyline } = await drawRoute(
                 directionsService,
                 directionsRenderer,
-                portPosition,
+                currport,
                 attraction.position,
                 "black"
               );
@@ -291,7 +336,6 @@ function parseCSV(data) {
                 </div>
               `);
             } catch (error) {
-              console.log("Error drawing route:", error);
               infoWindow.setContent("<div>Error loading route</div>");
             }
             // }
@@ -306,10 +350,10 @@ function parseCSV(data) {
           });
         });
   
-        let button = document.getElementById("plot-route-btn");
-        button.onclick = () => {
-          planRoute(map, directionsService, portPosition, addedAttractions, directionsRenderer);
-        }
+        // let button = document.getElementById("plot-route-btn");
+        // button.onclick = () => {
+        //   planRoute(map, directionsService, portPosition, addedAttractions, directionsRenderer, true);
+        // }
         
       });
   }
@@ -317,15 +361,12 @@ function parseCSV(data) {
   
 
 
-async function planRoute(map, directionsService, portPosition, addedAttractions, directionsRenderer) {
-  if (addedAttractions.length === 0) {
+async function planRoute(map, directionsService, portPosition, addedAttractions, directionsRenderer, rflag) {
+  if (addedAttractions.length === 0 && rflag == true){
     alert("Please drag and drop at least one attraction to the path zone.");
     return;
   }
 
-
-
-  console.log(addedAttractions);
   clearPaths();
   const waypoints = addedAttractions.map((attraction) => ({
     location: attraction.position,
@@ -361,7 +402,6 @@ async function planRoute(map, directionsService, portPosition, addedAttractions,
 
   try {
     directionsService.route(request, (result, status) => {
-      console.log(result);
       if (status === google.maps.DirectionsStatus.OK) {
         directionsRenderer.setDirections(result);
         const routePolyline = result.routes[0].overview_path;
@@ -371,8 +411,10 @@ async function planRoute(map, directionsService, portPosition, addedAttractions,
           polyline.setMap(directionsRenderer.getMap());      
           allPaths.push(polyline);    
 
+          
+
           const legs = result.routes[0].legs;
-          let segmentDetails = "<b><br>Time Taken for Each Segment:</b><br>";
+          let segmentDetails = "";
           let totalDuration = 0;
     
           legs.forEach((leg, index) => {
@@ -384,12 +426,11 @@ async function planRoute(map, directionsService, portPosition, addedAttractions,
             const endlux = index < addedAttractions.length ? `            Time at ${addedAttractions[index].name}: ${endluxtime} hrs` : "";
             
             totalDuration += leg.duration.value; // Accumulate total duration
-            console.log(totalDuration);
             totalDuration += index < addedAttractions.length ? parseFloat(addedAttractions[index].time)*3600 : 0
-            console.log(totalDuration);
+            
 
-            segmentDetails += `<hr>${index + 1}. (${startName} → ${endName}): ${legDurationInMinutes} mins<br>
-                               ${endlux}`;
+            segmentDetails += `${index + 1}. (${startName} → ${endName}): ${legDurationInMinutes} mins<br>
+                               ${endlux}<hr>`;
 
           });
     
@@ -400,18 +441,22 @@ async function planRoute(map, directionsService, portPosition, addedAttractions,
             tot = (totalDuration / 60).toFixed(1);
             dur = "mins";
           }
-    
-          // Update the route summary on the webpage
-          document.getElementById("route-summary").innerHTML = `
-            ${segmentDetails}<br>
-            <b><hr>Total Travel Time:</b> ${tot} ${dur}
-          `;
+          
+          if(rflag != false){
+            // Update the route summary on the webpage
+            document.getElementById("route-summary").innerHTML = `<b><hr>Total Travel Time:</b> ${tot} ${dur}<hr>
+            <b><br>Time Taken for Each Segment:</b><br><br>`;
+
+            document.getElementById("route-legs").innerHTML = `${segmentDetails}`;
+          } else {
+            
+            map.setZoom(map.getZoom() - 15);}
       } else {
         console.error("Directions request failed due to " + status);
       }
     });
   } catch (error) {
-    console.log("Error planning route:", error);
+  console.error("Error planning route:", error);
   }
 }
   
@@ -452,19 +497,19 @@ async function planRoute(map, directionsService, portPosition, addedAttractions,
         content += "<p>WIP</p>";
       }
   
-      // legend = `
-      // <hr/>
-      // Attraction Type Legend:<br>
-      //   <span style="color: green;">&#10140; Nature</span> <br>
-      //   <span style="color: gray;">&#10140; History</span> <br>
-      //   <span style="color: red;">&#10140; Religion</span> <br>
-      //   <span style="color: blue;">&#10140; Chill</span> <br>
-      //   <span style="color: brown;">&#10140; Shopping</span> <br>
-      //   <span style="color: rgb(0, 0, 0);">&#10140; Others</span>
-      // `
+      legend = `
+      <hr/>
+      Attraction Type Legend:<br>
+        <span style="color: green;">&#10140; Nature</span> <br>
+        <span style="color: gray;">&#10140; History</span> <br>
+        <span style="color: red;">&#10140; Religion</span> <br>
+        <span style="color: blue;">&#10140; Chill</span> <br>
+        <span style="color: brown;">&#10140; Shopping</span> <br>
+        <span style="color: rgb(0, 0, 0);">&#10140; Others</span>
+      `
       
       // Update the info bar content
-      document.getElementById("port-info").innerHTML = content;
+      document.getElementById("port-info").innerHTML = content + legend;
       document.getElementById("port-info2").innerHTML = main_content ;
     });
   }
@@ -509,6 +554,7 @@ async function planRoute(map, directionsService, portPosition, addedAttractions,
   
     const directionsService = new google.maps.DirectionsService();
   
+    let dummy = '';
     fetch("data/itinerary.csv")
       .then((response) => response.text())
       .then((csvData) => {
@@ -521,6 +567,7 @@ async function planRoute(map, directionsService, portPosition, addedAttractions,
           //   map: map,
           //   title: `${port.port}`,
           // });
+          dummy = port.position;
           const marker = new google.maps.Marker({
             position: port.position,
             map: map,
@@ -553,14 +600,24 @@ async function planRoute(map, directionsService, portPosition, addedAttractions,
           });
 
           marker.addListener("click", () => {
-            map.setZoom(12);
+            clearMarkers();
+            map.setZoom(map.getZoom() + 5);
             map.setCenter(port.position);
             showPortDetails(port);
             addedAttractions = [];
             document.getElementById("route-summary").innerHTML = ``
-            LocalAttractions(map, port.position,port.port, directionsService, directionsRenderer);
+            document.getElementById("route-legs").innerHTML = ``
+
+            currport = port.position
+            LocalAttractions(map, port.port, directionsService, directionsRenderer);
+
           });
+
+          
         });
       });
+
+      
+      planRoute(map, directionsService, dummy, [], directionsRenderer, false);
   }
   

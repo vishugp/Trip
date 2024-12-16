@@ -23,7 +23,8 @@
   <aside id="info-sidebar">
       
     <div id="port-info">
-      <h1>Welcome to the Greece Trip Planner!</h1>   
+      <h1>Welcome to the Greece Trip Planner!</h1>  
+      <p>Select a port on the map to view further details</p> 
       
     </div>
     
@@ -37,25 +38,39 @@
     <aside id="main-sidebar">
       
       <div id="port-info2">
-        <h2>7 Nights Cruise<br> Best of Greece</h2>
-      <p>Select a port on the map to view further details</p>
+        <h2 style="text-align: center;"><u>7 Nights Cruise<br> Best of Greece</u></h2>
+      
 
-      Attraction Type Legend:<br>
+      <!-- <ul> -->
+        <h3>Itinerary</h3>
+        <li><strong>Day 1:</strong> Athens (Piraeus), Greece</li>
+        <li><strong>Day 2:</strong> Santorini, Greece</li>
+        <li><strong>Day 3:</strong> Kusadasi, Turkey</li>
+        <li><strong>Day 4:</strong> Mykonos, Greece</li>
+        <li><strong>Day 5:</strong> Volos, Greece</li>
+        <li><strong>Day 6:</strong> Thessaloniki, Greece</li>
+        <li><strong>Day 7:</strong> Back to Athens, Greece</li>
+      <!-- </ul> -->
+      <!-- <br>hr> -->
+
+      <!-- Attraction Type Legend:<br>
         <span style="color: green;">&#10140; Nature</span> <br>
         <span style="color: gray;">&#10140; History</span> <br>
         <span style="color: red;">&#10140; Religion</span> <br>
         <span style="color: blue;">&#10140; Chill</span> <br>
         <span style="color: brown;">&#10140; Shopping</span> <br>
         <span style="color: rgb(0, 0, 0);">&#10140; Others</span>
-        
+         -->
       </div>
       <div id="route-planner" style="display: none;">
         <b>Plan Your Route</b><br>
-        <i>Drag & Drop  spots into the box below</i><br>
+        <i>Drag & Drop icons into the box below</i><br>
+        <i>Edit the time spent at each spot</i><br>
         <div id="attraction-list"></div>
-        <div id="path-zone">Drag attractions here to plan your route</div><br>
-        <button id="plot-route-btn">Plot Route</button>
-        <div id="route-summary"></div>
+        <div id="path-zone">Drag attractions here to plan your route</div>
+        <!-- <button id="plot-route-btn">Plot Route</button> -->
+        <div id="route-summary"> </div>
+        <div id="route-legs"></div>
       </div>
       
   </aside>
