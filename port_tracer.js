@@ -18,7 +18,7 @@ function enableMultiControlCurve(map, start, end) {
   });
 
   // Generate 10 draggable control points
-  const numControlPoints = 15;
+  const numControlPoints = 27;
   const controlMarkers = [];
   const polyline = new google.maps.Polyline({
     path: [],
@@ -134,8 +134,8 @@ function initMap() {
   });
 
   // Example start and end points
-  const end = { lat: 37.8625544, lng: 27.2550403}; // Example start
-  const start = { lat: 36.386160, lng: 25.430320 };   // Example end
+  const start = { lat: 37.8625544, lng: 27.2550403}; // Example start
+  const end = { lat: 37.4467, lng: 25.3289 };   // Example end
 
   // const savedPoints = [
   //   {"lat":37.9447622,"lng":23.6383111},
@@ -156,18 +156,18 @@ function initMap() {
 
   // const savedPoints = [{"lat":36.38616,"lng":25.43032},{"lat":36.42347940121877,"lng":25.409439176464826},{"lat":36.45647270435611,"lng":25.35903259609377},{"lat":36.49204647764323,"lng":25.363214333593763},{"lat":36.57239495311582,"lng":25.501978590625008},{"lat":36.68691765408433,"lng":25.783565113281252},{"lat":36.8123768844216,"lng":26.09536403828125},{"lat":36.95310822791505,"lng":26.335751830468745},{"lat":37.05424716180821,"lng":26.44705026718749},{"lat":37.146607303846835,"lng":26.555602121874983},{"lat":37.27394518570213,"lng":26.63943473828123},{"lat":37.467699256081005,"lng":26.712281026562515},{"lat":37.590367268620724,"lng":26.890870723046884},{"lat":37.693729081209725,"lng":27.01444294821778},{"lat":37.71060500813471,"lng":27.107974432421877},{"lat":37.873877007065744,"lng":27.24124552539062},{"lat":37.8625544,"lng":27.2550403}]
       
-  fetch('data/port2port_ctrl.json')
-    .then(response => response.json())
-    .then(data => {
-      console.log(data)
-        plotPaths(map, data);
-    })
-    .catch(error => console.error('Error loading JSON:', error));
+  // fetch('data/port2port_ctrl.json')
+  //   .then(response => response.json())
+  //   .then(data => {
+  //     console.log(data)
+  //       plotPaths(map, data);
+  //   })
+  //   .catch(error => console.error('Error loading JSON:', error));
 
 
 
 
   // Enable draggable curve with control points
-  // enableMultiControlCurve(map, start, end);
+  enableMultiControlCurve(map, start, end);
   // loadFinalCurve(map, savedPoints);
 }

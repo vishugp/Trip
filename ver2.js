@@ -63,10 +63,31 @@ function parseCSV(data) {
     });
   }
   
+  let directionsRenderer;
+  let allMarkers = [];
+  let allPaths = [];
+
+  function clearPaths() {
+    // Clear directions from the map
+    if (directionsRenderer) {
+      directionsRenderer.setMap(null);
+      directionsRenderer = null; // Optional: Reset the directionsRenderer variable if needed
+    }
   
+    
+  
+ 
+    // Clear all paths (if any)
+    allPaths.forEach((path) => {
+      path.setMap(null);
+    });
+  
+    allPaths = [];
+  }
   
   // Draw a land route using Google Directions Service
   function drawRoute(directionsService, directionsRenderer, start, end, color) {
+
     const request = {
       origin: start,
       destination: end,
@@ -74,8 +95,8 @@ function parseCSV(data) {
     };
   
     const polylineOptions = {
-      strokeColor: color,
-      strokeOpacity: 0.7,
+      strokeColor: "#FF0000",
+      strokeOpacity: 0.1,
       strokeWeight: 3,
     };
   
@@ -88,7 +109,7 @@ function parseCSV(data) {
           const routePolyline = result.routes[0].overview_path;
           const polyline = new google.maps.Polyline(polylineOptions);
           polyline.setPath(routePolyline);
-          polyline.setMap(directionsRenderer.getMap());
+          polyline.setMap(directionsRenderer.getMap());          
   
           // Calculate trip duration
           const duration = result.routes[0].legs[0].duration.text;
@@ -114,24 +135,91 @@ function parseCSV(data) {
   }
   
   // Display local attractions for a port
-  function LocalAttractions(map, portPosition, portName, directionsService) {
+  function LocalAttractions(map, portPosition, portName, directionsService, directionsRenderer) {
     fetch("data/local_attractions.csv")
       .then((response) => response.text())
       .then((csvData) => {
         const attractions = parseLocalAttractions(csvData);
   
-        // Filter attractions based on the selected port
         const filteredAttractions = attractions.filter(
           (attraction) => attraction.port === portName
         );
   
-        // Define colors for each type of attraction
-        
-  
-        // Loop through and display filtered attractions
+        let rp = document.getElementById("route-planner");
+        rp.style.display = "block";
+        const attractionListDiv = document.getElementById("attraction-list");
+        const pathZoneDiv = document.getElementById("path-zone");
+        attractionListDiv.innerHTML = ""; // Clear previous list
+        pathZoneDiv.innerHTML = ""; // Clear previous path zone
+
+        // Drag and drop setup
+        pathZoneDiv.addEventListener("dragover", (e) => e.preventDefault());
+        pathZoneDiv.addEventListener("drop", (e) => {
+          e.preventDefault();
+          const data = e.dataTransfer.getData("text");
+          const draggedAttraction = JSON.parse(data);
+          addAttractionToPath(draggedAttraction); 
+        });
+
+      let addedAttractions = []; // For keeping track of planned attractions
+
+      function addAttractionToPath(attraction) {
+        if (!addedAttractions.some((a) => a.name === attraction.name)) {
+          addedAttractions.push(attraction);
+          const index = addedAttractions.length - 1;
+
+          const item = document.createElement("div");
+          item.className = "path-item";
+          item.style.display = "flex";  
+          item.innerText = `${index + 1}. ${attraction.name}`; 
+          item.style.backgroundColor = typeColors[attraction.type] || typeColors.default;
+      
+          // Create a remove button
+          let removeButton = document.createElement("span");
+          removeButton.className = "remove-btn";
+          removeButton.innerText = "X";
+          removeButton.style.display = "flex";
+          // removeButton.style.top = "0px";
+          // removeButton.style.right = "10px";
+          removeButton.style.cursor = "pointer";
+          removeButton.style.marginLeft = "auto";
+
+          item.style.justifyContent = "space-between";
+          document.getElementById("route-summary").innerHTML = ``
+          removeButton.addEventListener("click", () => {
+            item.remove(); // Remove the item from the list
+            document.getElementById("route-summary").innerHTML = ``
+            addedAttractions = addedAttractions.filter(a => a.name !== attraction.name);  // Update the addedAttractions array
+          });
+      
+          // // Append the button to the item
+          item.appendChild(removeButton);
+          
+          pathZoneDiv.appendChild(item);
+        }
+      }
+      
+
+
         filteredAttractions.forEach((attraction, index) => {
           const markerColor = typeColors[attraction.type] || typeColors.default;
-  
+          
+          // Create draggable element
+          const draggableCircle = document.createElement("div");
+          draggableCircle.className = "draggable-circle";
+          draggableCircle.draggable = true;
+          draggableCircle.innerText = index + 1;
+          draggableCircle.style.backgroundColor = markerColor;
+          draggableCircle.style.borderBlockColor = "black";
+          draggableCircle.dataset.attraction = JSON.stringify(attraction);
+
+          draggableCircle.addEventListener("dragstart", (e) => {
+            e.dataTransfer.setData("text", draggableCircle.dataset.attraction);
+
+        });
+
+        attractionListDiv.appendChild(draggableCircle);
+
           const marker = new google.maps.Marker({
             position: attraction.position,
             map: map,
@@ -145,55 +233,51 @@ function parseCSV(data) {
             },
             title: attraction.name,
             label: {
-              text: (index + 1).toString(), // Number on marker
+              text: (index + 1).toString(),
               color: "white",
               fontSize: "16px",
               fontWeight: "bold",
-              className: "marker-number"
+              className: "marker-number",
             },
           });
   
           const infoWindow = new google.maps.InfoWindow();
           let hasRouteDrawn = false;
           let currentRoute = null;
-  
-          // Add click listener to display route and details
+          
+          
           marker.addListener("click", async () => {
-            if (!hasRouteDrawn) {
-              const directionsRenderer = new google.maps.DirectionsRenderer({
-                suppressMarkers: true,
-              });
-              directionsRenderer.setMap(map);
+            console.log(marker)
+            // if (!hasRouteDrawn) {
+              
   
-              try {
-                const { duration, polyline } = await drawRoute(
-                  directionsService,
-                  directionsRenderer,
-                  portPosition,
-                  attraction.position,
-                  "black"
-                );
-                hasRouteDrawn = true;
-                currentRoute = polyline;
-  
-                // Set content with colorized links and number
-                infoWindow.setContent(`
-                  <div>
-                    <strong>Attraction #${index + 1}: ${attraction.name}</strong><br/>
-                    ${attraction.notes}<br><br>
-                    Trip Time (1-way): ${duration}<br/>
-                    Time to Spend: ${attraction.time}<br/>
-                    <a href="${attraction.gview}" style="color: ${markerColor};">Google View</a><br/>
-                  </div>
-                `);
-              } catch (error) {
-                console.log("Error drawing route:", error);
-                infoWindow.setContent("<div>Error loading route</div>");
-              }
+            try {
+              const { duration, polyline } = await drawRoute(
+                directionsService,
+                directionsRenderer,
+                portPosition,
+                attraction.position,
+                "black"
+              );
+              hasRouteDrawn = true;
+              currentRoute = polyline;
+
+              infoWindow.setContent(`
+                <div>
+                  <strong>Attraction #${index + 1}: ${attraction.name}</strong><br/>
+                  ${attraction.notes}<br><br>
+                  Trip Time (1-way): ${duration}<br/>
+                  Time to Spend: ${attraction.time}<br/>
+                  <a href="${attraction.gview}" style="color: ${markerColor};">Google View</a><br/>
+                </div>
+              `);
+            } catch (error) {
+              console.log("Error drawing route:", error);
+              infoWindow.setContent("<div>Error loading route</div>");
             }
+            // }
             infoWindow.open(map, marker);
   
-            // Close button listener to remove route
             google.maps.event.addListener(infoWindow, "closeclick", () => {
               if (currentRoute) {
                 currentRoute.setMap(null);
@@ -202,14 +286,76 @@ function parseCSV(data) {
             });
           });
         });
+  
+        let button = document.getElementById("plot-route-btn");
+        button.onclick = () => {
+          planRoute(map, directionsService, portPosition, addedAttractions, directionsRenderer);
+        }
+        
       });
   }
+
+  
+
+
+async function planRoute(map, directionsService, portPosition, addedAttractions, directionsRenderer) {
+  if (addedAttractions.length === 0) {
+    alert("Please drag and drop at least one attraction to the path zone.");
+    return;
+  }
+
+
+
+  console.log(addedAttractions);
+
+  const waypoints = addedAttractions.map((attraction) => ({
+    location: attraction.position,
+    stopover: true,
+  }));
+
+  const request = {
+    origin: portPosition,
+    destination: portPosition,
+    waypoints: waypoints,
+    travelMode: google.maps.TravelMode.DRIVING,
+    optimizeWaypoints: false,
+  };
+
+  
+
+  try {
+    directionsService.route(request, (result, status) => {
+      if (status === google.maps.DirectionsStatus.OK) {
+        directionsRenderer.setDirections(result);
+
+        const totalDuration = result.routes[0].legs.reduce(
+          (sum, leg) => sum + leg.duration.value,
+          0
+        );
+        let dur = "hrs"
+        let tot = (totalDuration / 3600).toFixed(1)
+        if(tot<1){
+          tot = (totalDuration / 60).toFixed(1)
+          dur = "mins"
+        }
+
+        document.getElementById("route-summary").innerHTML = `<br>
+          <b>Route Summary:</b><br>
+          Total Travel Time (to and fro): ${tot} ${dur}
+        `;
+      } else {
+        console.error("Directions request failed due to " + status);
+      }
+    });
+  } catch (error) {
+    console.log("Error planning route:", error);
+  }
+}
   
   
   
-  // Show port details in a side panel
-  
-  
+
+
   // Updated showPortDetails to display attractions in the info bar
   function showPortDetails(port) {
     getLocalAttractions(port.port, (attractions) => {
@@ -242,20 +388,20 @@ function parseCSV(data) {
         content += "<p>WIP</p>";
       }
   
-      legend = `
-      <hr/>
-      Attraction Type Legend:<br>
-        <span style="color: green;">&#10140; Nature</span> <br>
-        <span style="color: gray;">&#10140; History</span> <br>
-        <span style="color: red;">&#10140; Religion</span> <br>
-        <span style="color: blue;">&#10140; Chill</span> <br>
-        <span style="color: brown;">&#10140; Shopping</span> <br>
-        <span style="color: rgb(0, 0, 0);">&#10140; Others</span>
-      `
+      // legend = `
+      // <hr/>
+      // Attraction Type Legend:<br>
+      //   <span style="color: green;">&#10140; Nature</span> <br>
+      //   <span style="color: gray;">&#10140; History</span> <br>
+      //   <span style="color: red;">&#10140; Religion</span> <br>
+      //   <span style="color: blue;">&#10140; Chill</span> <br>
+      //   <span style="color: brown;">&#10140; Shopping</span> <br>
+      //   <span style="color: rgb(0, 0, 0);">&#10140; Others</span>
+      // `
       
       // Update the info bar content
       document.getElementById("port-info").innerHTML = content;
-      document.getElementById("port-info2").innerHTML = main_content + legend;
+      document.getElementById("port-info2").innerHTML = main_content ;
     });
   }
   
@@ -285,6 +431,7 @@ function parseCSV(data) {
             ],
             map: map,
         });
+        
     });
 }
 
@@ -332,17 +479,20 @@ function parseCSV(data) {
           fetch('data/port2port_ctrl.json')
           .then(response => response.json())
           .then(data => {
-            console.log(data)
               plotPaths(map, data);
           })
           .catch(error => console.error('Error loading JSON:', error));
 
-  
+          const directionsRenderer = new google.maps.DirectionsRenderer({
+            suppressMarkers: true,
+            map: map
+          });
+
           marker.addListener("click", () => {
             map.setZoom(12);
             map.setCenter(port.position);
             showPortDetails(port);
-            LocalAttractions(map, port.position,port.port, directionsService);
+            LocalAttractions(map, port.position,port.port, directionsService, directionsRenderer);
           });
         });
       });
