@@ -70,14 +70,11 @@ function parseCSV(data) {
 
   function clearPaths() {
     // Clear directions from the map
-    if (directionsRenderer) {
-      directionsRenderer.setMap(null);
-      directionsRenderer = null; // Optional: Reset the directionsRenderer variable if needed
-    }
-  
-    
-  
- 
+    // if (directionsRenderer) {
+    //   directionsRenderer.setMap(null);
+    //   directionsRenderer = null; // Optional: Reset the directionsRenderer variable if needed
+    // }
+
     // Clear all paths (if any)
     allPaths.forEach((path) => {
       path.setMap(null);
@@ -113,20 +110,22 @@ function parseCSV(data) {
   
     const polylineOptions = {
       strokeColor: "#FF0000",
-      strokeOpacity: 0.1,
-      strokeWeight: 3,
+      strokeOpacity: 1,
+      strokeWeight: 1,
     };
   
     return new Promise((resolve, reject) => {
       directionsService.route(request, (result, status) => {
         if (status === google.maps.DirectionsStatus.OK) {
-          directionsRenderer.setDirections(result);
+          // directionsRenderer.setDirections(result);
   
           // Customize polyline
           const routePolyline = result.routes[0].overview_path;
+          clearPaths();
           const polyline = new google.maps.Polyline(polylineOptions);
           polyline.setPath(routePolyline);
-          polyline.setMap(directionsRenderer.getMap());          
+          polyline.setMap(directionsRenderer.getMap());      
+          allPaths.push(polyline);    
   
           // Calculate trip duration
           const duration = result.routes[0].legs[0].duration.text;
@@ -191,7 +190,7 @@ function parseCSV(data) {
           const item = document.createElement("div");
           item.className = "path-item";
           item.style.display = "flex";  
-          item.innerText = `${toRoman(index + 1)}.  ${attraction.name} (${attraction.rank})`; 
+          item.innerText = `${toRoman(index + 1)}.  ${attraction.name} [${attraction.rank}]`; 
           item.style.backgroundColor = typeColors[attraction.type] || typeColors.default;
       
           // Create a remove button
@@ -327,7 +326,7 @@ async function planRoute(map, directionsService, portPosition, addedAttractions,
 
 
   console.log(addedAttractions);
-
+  clearPaths();
   const waypoints = addedAttractions.map((attraction) => ({
     location: attraction.position,
     stopover: true,
@@ -341,28 +340,72 @@ async function planRoute(map, directionsService, portPosition, addedAttractions,
     optimizeWaypoints: false,
   };
 
+  const polylineOptions = {
+    strokeColor: "#000000",
+    strokeOpacity: 1,
+    strokeWeight: 0,
+    icons: [
+      {
+        icon: {
+          path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+          scale: 2, // Adjust size of the arrow
+          strokeColor: "#000000",
+          strokeOpacity: 1,
+        },
+        offset: "0%",
+        repeat: "100px", // Adjust distance between arrows
+      },
+    ],
+  };
   
 
   try {
     directionsService.route(request, (result, status) => {
+      console.log(result);
       if (status === google.maps.DirectionsStatus.OK) {
         directionsRenderer.setDirections(result);
+        const routePolyline = result.routes[0].overview_path;
+          clearPaths();
+          const polyline = new google.maps.Polyline(polylineOptions);
+          polyline.setPath(routePolyline);
+          polyline.setMap(directionsRenderer.getMap());      
+          allPaths.push(polyline);    
 
-        const totalDuration = result.routes[0].legs.reduce(
-          (sum, leg) => sum + leg.duration.value,
-          0
-        );
-        let dur = "hrs"
-        let tot = (totalDuration / 3600).toFixed(1)
-        if(tot<1){
-          tot = (totalDuration / 60).toFixed(1)
-          dur = "mins"
-        }
+          const legs = result.routes[0].legs;
+          let segmentDetails = "<b><br>Time Taken for Each Segment:</b><br>";
+          let totalDuration = 0;
+    
+          legs.forEach((leg, index) => {
+            const legDurationInMinutes = (leg.duration.value / 60).toFixed(0); // Convert seconds to minutes
+            
+            const startName = index === 0 ? "Port" : addedAttractions[index - 1].name; // First leg starts at the port
+            const endName = index < addedAttractions.length ? addedAttractions[index].name : "Port"; // Last leg ends at the port
+            const endluxtime = index < addedAttractions.length ? addedAttractions[index].time : "";
+            const endlux = index < addedAttractions.length ? `            Time at ${addedAttractions[index].name}: ${endluxtime} hrs` : "";
+            
+            totalDuration += leg.duration.value; // Accumulate total duration
+            console.log(totalDuration);
+            totalDuration += index < addedAttractions.length ? parseFloat(addedAttractions[index].time)*3600 : 0
+            console.log(totalDuration);
 
-        document.getElementById("route-summary").innerHTML = `<br>
-          <b>Route Summary:</b><br>
-          Total Travel Time (to and fro): ${tot} ${dur}
-        `;
+            segmentDetails += `<hr>${index + 1}. (${startName} → ${endName}): ${legDurationInMinutes} mins<br>
+                               ${endlux}`;
+
+          });
+    
+          // Calculate total travel time
+          let dur = "hrs";
+          let tot = (totalDuration / 3600).toFixed(1);
+          if (tot < 1) {
+            tot = (totalDuration / 60).toFixed(1);
+            dur = "mins";
+          }
+    
+          // Update the route summary on the webpage
+          document.getElementById("route-summary").innerHTML = `
+            ${segmentDetails}<br>
+            <b><hr>Total Travel Time:</b> ${tot} ${dur}
+          `;
       } else {
         console.error("Directions request failed due to " + status);
       }
@@ -380,12 +423,13 @@ async function planRoute(map, directionsService, portPosition, addedAttractions,
   function showPortDetails(port) {
     getLocalAttractions(port.port, (attractions) => {
       // Start with port details
-      let main_content = `
+      let main_content = ``
+      let content = `
         <h3>${port.port}, ${port.country} - Day ${port.day}</h3>
-        <h4>Arrival ${port.arrival} - Departure ${port.departure}</h4>
+        <b><i>Arrival ${port.arrival} - Departure ${port.departure}</b></i><hr>
       `;
 
-      let content = `
+      content += `
       <h3>Top Local Attractions</h3>
       `
   
@@ -400,7 +444,7 @@ async function planRoute(map, directionsService, portPosition, addedAttractions,
           content += `
             <a href="${attraction.gview}" style="color: ${markerColor};">
               <strong>#${index + 1} ${attraction.name}</strong>
-            </a> : ${attraction.time}<br>
+            </a><br>
             <i>${attraction.notes}</i><p></p>
           `;
         });
@@ -513,6 +557,7 @@ async function planRoute(map, directionsService, portPosition, addedAttractions,
             map.setCenter(port.position);
             showPortDetails(port);
             addedAttractions = [];
+            document.getElementById("route-summary").innerHTML = ``
             LocalAttractions(map, port.position,port.port, directionsService, directionsRenderer);
           });
         });

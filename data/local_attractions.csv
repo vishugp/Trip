@@ -1,13 +1,13 @@
 name,rank,type,port,latitude,longitude,time,notes,gview
 
-Oia Village,1,Nature,Santorini,36.4600862,25.372933,4-5 hrs,Whitewashed houses carved into the rugged clifftops,https://maps.app.goo.gl/7ZByAp6dsSDmNt8o6
-Fira,2,History,Santorini,36.4167991,25.4326657,2 hrs,Museum with ancient artifacts on Santorini.,https://maps.app.goo.gl/KfY2LqC6bixzsxVY6
-Akrotiri Ruins,3,History,Santorini,36.3518579,25.4034147,1-2 hrs,Ancient Excavation of Bronze Age settlement.,https://maps.app.goo.gl/6Gjs2FGyxoFvUpFe6
-Kamari Beach,4,Chill,Santorini,36.3759451,25.4856227,2 hrs,BEACH,https://maps.app.goo.gl/vbCRh9RyACMrxoBUA
+Oia Village,1,Nature,Santorini,36.4600862,25.372933,5,Whitewashed houses carved into the rugged clifftops,https://maps.app.goo.gl/7ZByAp6dsSDmNt8o6
+Fira,2,History,Santorini,36.4167991,25.4326657,2,Museum with ancient artifacts on Santorini.,https://maps.app.goo.gl/KfY2LqC6bixzsxVY6
+Akrotiri Ruins,3,History,Santorini,36.3518579,25.4034147,2,Ancient Excavation of Bronze Age settlement.,https://maps.app.goo.gl/6Gjs2FGyxoFvUpFe6
+Kamari Beach,4,Chill,Santorini,36.3759451,25.4856227,2,BEACH,https://maps.app.goo.gl/vbCRh9RyACMrxoBUA
 
 
-Ephesus Ruins,1,History,Kusadasi,37.9355825,27.3460919,3-4 hrs,Ancient city ruins including the Library of Celsus,https://maps.app.goo.gl/2KHhXmfFNALNn9XJ8
-House of Virgin Mary,2,Religion,Kusadasi,37.911684,27.334045,1-2 hrs,Holy site - Virgin Mary's last home,https://maps.app.goo.gl/ihhPVqhkgTgMZhFx9
-Kusadasi Castle,3,History,Kusadasi,37.8634997,27.2478423,1 hr,Castle on Pigeon Island,https://maps.app.goo.gl/NrC8vjd1AYgwUBkk7
-Kusadasi Bazaar,4,Shopping,Kusadasi,37.8600086,27.2565198,1-2 hrs,Lively market with local goods and souvenirs,https://maps.app.goo.gl/K4iU376oLuTJGQah9
-Ladies Beach,5,Chill,Kusadasi,37.8448396,27.2427905,2 hrs,BEACH!,https://maps.app.goo.gl/4ShsEuJeC1JsfSkq6
+Ephesus Ruins,1,History,Kusadasi,37.9355825,27.3460919,3,Ancient city ruins including the Library of Celsus,https://maps.app.goo.gl/2KHhXmfFNALNn9XJ8
+House of Virgin Mary,2,Religion,Kusadasi,37.911684,27.334045,2,Holy site - Virgin Mary's last home,https://maps.app.goo.gl/ihhPVqhkgTgMZhFx9
+Kusadasi Castle,3,History,Kusadasi,37.8634997,27.2478423,2,Castle on Pigeon Island,https://maps.app.goo.gl/NrC8vjd1AYgwUBkk7
+Kusadasi Bazaar,4,Shopping,Kusadasi,37.8600086,27.2565198,2,Lively market with local goods and souvenirs,https://maps.app.goo.gl/K4iU376oLuTJGQah9
+Ladies Beach,5,Chill,Kusadasi,37.8448396,27.2427905,2,BEACH!,https://maps.app.goo.gl/4ShsEuJeC1JsfSkq6
