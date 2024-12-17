@@ -10,39 +10,33 @@ const typeColors = {
 
 
 function parseCSV(data) {
-    const rows = data.split("\n").slice(1); // Skip header row
-    return rows.map((row) => {
-      const [
-        day,
-        date,
-        port,
-        country,
-        attraction,
-        type,
-        description,
-        arrival,
-        departure,
-        latitude,
-        longitude,
-      ] = row.split(",");
-      return {
-        day,
-        date,
-        port,
-        country,
-        attraction,
-        type,
-        description,
-        arrival,
-        departure,
-        position: {
-          lat: parseFloat(latitude),
-          lng: parseFloat(longitude),
-        },
-      };
-    });
-  }
-  
+  const ports = [];
+  Papa.parse(data, {
+    header: true, // Use the first row as column names
+    skipEmptyLines: true,
+    complete: function (results) {
+      results.data.forEach((row) => {
+        ports.push({
+          day: row.day,
+          date: row.date,
+          port: row.port,
+          country: row.country,
+          attraction: row.attraction,
+          type: row.type,
+          description: row.description,
+          arrival: row.arrival,
+          departure: row.departure,
+          position: {
+            lat: parseFloat(row.latitude),
+            lng: parseFloat(row.longitude),
+          },
+          trackURL: row.trackURL || "", // Handle missing trackURL gracefully
+        });
+      });
+    },
+  });
+  return ports;
+}
   // Parse CSV for local attractions
   function parseLocalAttractions(data) {
     const rows = data.split("\n").slice(1);
@@ -544,6 +538,8 @@ async function planRoute(map, directionsService, portPosition, addedAttractions,
     });
 }
 
+const iframeElement = document.getElementById("soundcloud-player");
+const widget = SC.Widget(iframeElement);
   
   // Initialize the map and render routes/ports
   function initMap() {
@@ -559,6 +555,8 @@ async function planRoute(map, directionsService, portPosition, addedAttractions,
       .then((response) => response.text())
       .then((csvData) => {
         const ports = parseCSV(csvData);
+
+
   
         // Add markers for each port
         ports.forEach((port, index) => {
@@ -567,6 +565,7 @@ async function planRoute(map, directionsService, portPosition, addedAttractions,
           //   map: map,
           //   title: `${port.port}`,
           // });
+          console.log(port);
           dummy = port.position;
           const marker = new google.maps.Marker({
             position: port.position,
@@ -610,6 +609,13 @@ async function planRoute(map, directionsService, portPosition, addedAttractions,
 
             currport = port.position
             LocalAttractions(map, port.port, directionsService, directionsRenderer);
+
+            console.log(port.trackURL)
+            const newSrc = `https://w.soundcloud.com/player/?url=${port.trackURL}&auto_play=true`;
+            iframeElement.src = newSrc;
+
+            // Reload the SoundCloud widget and play
+            widget.load(data.trackURL, { auto_play: true });
 
           });
 

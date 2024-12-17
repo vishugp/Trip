@@ -1,8 +1,8 @@
-day,date,port,country,attraction,type,description,arrival,departure,latitude,longitude
-1,2024-06-01,Athens (Piraeus),Greece,Acropolis of Athens,Historical,"Ancient citadel with Parthenon and other ruins",08:00,18:00,37.9447622,23.6383111
-2,2024-06-02,Santorini,Greece,Oia Village,Cultural,"Famous for its whitewashed houses and sunset views",7 AM,10 PM,36.38619886699087,25.428447818107593
-3,2024-06-03,Kusadasi,Turkey,Temple of Artemis,Historical,"One of the Seven Wonders of the Ancient World",9 AM,9 PM,37.8625544,27.2550403
-4,2024-06-04,Mykonos,Greece,Mykonos Town,Cultural,"Known for its vibrant nightlife and beautiful beaches",08:00,18:00,37.46348196898559,25.32534204974173
-5,2024-06-05,Volos,Greece,Meteor Monasteries,Historical,"Monasteries perched atop rock formations",08:00,18:00,39.3610,22.9429
-6,2024-06-06,Thessaloniki,Greece,White Tower,Cultural,"Iconic symbol of Thessaloniki with a rich history",08:00,18:00,40.6401,22.9444
-1,2024-06-07,Athens,Greece,Achilleion Palace,Cultural,"Palace built for Empress of Austria with stunning gardens",08:00,18:00,37.9447622,23.6383111
+day,date,port,country,attraction,type,description,arrival,departure,latitude,longitude,trackURL
+1,2024-06-01,Athens (Piraeus),Greece,Acropolis of Athens,Historical,"Ancient citadel with Parthenon and other ruins",08:00,18:00,37.9447622,23.6383111,""
+2,2024-06-02,Santorini,Greece,Oia Village,Cultural,"Famous for its whitewashed houses and sunset views",7 AM,10 PM,36.38619886699087,25.428447818107593,"https://soundcloud.com/ajomegamusic/happy-greek-bouzouki-15-royalty-free-music-audiojungle?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"
+3,2024-06-03,Kusadasi,Turkey,Temple of Artemis,Historical,"One of the Seven Wonders of the Ancient World",9 AM,9 PM,37.8625544,27.2550403,"https://soundcloud.com/ajomegamusic/middle-east-6-royalty-free-music-audiojungle"
+4,2024-06-04,Mykonos,Greece,Mykonos Town,Cultural,"Known for its vibrant nightlife and beautiful beaches",08:00,18:00,37.46348196898559,25.32534204974173,""
+5,2024-06-05,Volos,Greece,Meteor Monasteries,Historical,"Monasteries perched atop rock formations",08:00,18:00,39.3610,22.9429,""
+6,2024-06-06,Thessaloniki,Greece,White Tower,Cultural,"Iconic symbol of Thessaloniki with a rich history",08:00,18:00,40.6401,22.9444,""
+1,2024-06-07,Athens,Greece,Achilleion Palace,Cultural,"Palace built for Empress of Austria with stunning gardens",08:00,18:00,37.9447622,23.6383111,""
