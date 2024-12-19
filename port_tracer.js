@@ -134,8 +134,8 @@ function initMap() {
   });
 
   // Example start and end points
-  const start = { lat: 37.8625544, lng: 27.2550403}; // Example start
-  const end = { lat: 37.4467, lng: 25.3289 };   // Example end
+  const start = { lat: 40.6401, lng: 22.9444}; // Example start
+  const end = { lat: 37.9447622,lng:23.6383111 };   // Example end
 
   // const savedPoints = [
   //   {"lat":37.9447622,"lng":23.6383111},

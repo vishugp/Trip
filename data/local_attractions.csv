@@ -9,6 +9,7 @@ Thera Ruins,6,History,Santorini,36.3636178,25.4777581,3,"Ancient Thera Ruins",ht
 Perivolos Beach,7,Chill,Santorini,36.3453616,25.4645885,5,"BEACH!",https://maps.app.goo.gl/3JEbuL39XTv5Mwfc9,0
 Kamari Beach,8,Chill,Santorini,36.3759451,25.4856227,2,"BEACH!",https://maps.app.goo.gl/vbCRh9RyACMrxoBUA,0
 
+
 Ephesus Ruins,1,History,Kusadasi,37.9355825,27.3460919,3,Ancient city ruins including the Library of Celsus,https://maps.app.goo.gl/2KHhXmfFNALNn9XJ8,22
 Temple of Artemis,2,Religion,Kusadasi,37.9495775,27.3637167,2.5,Former Wonder of Ancient World,https://maps.app.goo.gl/iFFUHB32cfPV8CMD8,18
 House of Virgin Mary,2,Religion,Kusadasi,37.911684,27.334045,2,Holy site - Virgin Mary's last home,https://maps.app.goo.gl/ihhPVqhkgTgMZhFx9,21
@@ -24,3 +25,24 @@ Paradise Beach,4,Chill,Mykonos,37.4100631,25.3561852,3,Popular beach with vibran
 Super Paradise Beach,5,Chill,Mykonos,37.4149394,25.368819,2,Crystal-clear waters and a relaxed vibe,https://maps.app.goo.gl/KGE98AWXPB9ufrny7,
 Delos Island,6,History,Mykonos,37.4012859,25.2687502,4,UNESCO World Heritage site with archaeological ruins,https://maps.app.goo.gl/MZfrY1MKG1M2GYbz7,
 
+
+Athanasakeion Archaeological Museum of Volos,1,History,Volos,39.3635915,22.9426533,2,"Museum showcasing artifacts from Neolithic settlements.",https://maps.app.goo.gl/6ZNcdmzJtnLtzToj7,5
+Centaurs' Path,2,Nature,Volos,39.4105657,22.9945562,2,"Scenic trail associated with centaur mythology.",https://maps.app.goo.gl/YmKLWmA8NF8Up5Qq9,0
+The Rooftile and Brickworks Museum N. & S. Tsalapatas,3,History,Volos,39.3604897,22.9323506,1,"Industrial heritage museum focusing on traditional manufacturing.",https://maps.app.goo.gl/2SGTHqS2UZySsz2G6,3
+Volos Port,4,Chill,Volos,39.3616935,22.9422237,1,"Bustling harbor for walks, dining, and local activities.",https://maps.app.goo.gl/N9Ez74X4MRcRteP46,0
+Makrinitsa Village,5,Nature,Volos,39.421537,22.996195,3,"Traditional village known as the 'Balcony of Pelion'.",https://maps.app.goo.gl/MNfXMEgSBUZbfCHe7,0
+Pelion Railway (Moutzouris),6,History,Volos,39.3483477,22.9452254,4,"Historic narrow-gauge railway through Pelion.",https://maps.app.goo.gl/X2ty3QfRCqLYVnGu6,10
+Anavros Park,7,Nature,Volos,39.3598375,22.9509346,1,"Coastal park ideal for walks and sea views.",https://maps.app.goo.gl/3dVaPy8YfHNaQ3Lf6,0
+Volos Municipal Theatre,8,Others,Volos,39.3626829,22.942676,2,"Cultural venue hosting performances.",https://maps.app.goo.gl/RL5PGFQ7h1G5Lkq57,10
+
+
+White Tower of Thessaloniki,1,History,Thessaloniki,40.626389,22.948333,1,"Historic tower and museum, symbol of the city.",https://maps.app.goo.gl/WhiteTowerThessaloniki,8
+Church of Saint Demetrios,2,Religion,Thessaloniki,40.640063,22.944419,1,"Byzantine church dedicated to the patron saint of the city.",https://maps.app.goo.gl/ChurchOfSaintDemetrios,0
+Archaeological Museum of Thessaloniki,3,Museum,Thessaloniki,40.626667,22.948056,2,"Museum showcasing artifacts from Macedonia's history.",https://maps.app.goo.gl/ArchaeologicalMuseumThessaloniki,8
+Rotunda of Galerius,4,History,Thessaloniki,40.633333,22.95,1,"Circular building from the 4th century, initially a mausoleum.",https://maps.app.goo.gl/RotundaThessaloniki,6
+Arch of Galerius,5,History,Thessaloniki,40.633611,22.950278,0.5,"Triumphal arch commemorating Roman Emperor Galerius's victory.",https://maps.app.goo.gl/ArchOfGalerius,0
+Ladadika District,6,Chill,Thessaloniki,40.634722,22.940278,2,"Vibrant area known for nightlife, restaurants, and bars.",https://maps.app.goo.gl/LadadikaDistrict,0
+Ano Poli (Upper Town),7,Nature,Thessaloniki,40.643056,22.951944,2,"Historic district with traditional architecture and panoramic views.",https://maps.app.goo.gl/AnoPoliThessaloniki,0
+Museum of Byzantine Culture,8,Museum,Thessaloniki,40.626111,22.948611,2,"Exhibits on Byzantine art and civilization.",https://maps.app.goo.gl/MuseumOfByzantineCulture,8
+Aristotelous Square,9,Chill,Thessaloniki,40.6325,22.940278,1,"Main city square, hub for social and cultural events.",https://maps.app.goo.gl/AristotelousSquare,0
+Modiano Market,10,Shopping,Thessaloniki,40.634167,22.9425,1,"Traditional market offering local foods and products.",https://maps.app.goo.gl/ModianoMarket,0

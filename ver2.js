@@ -533,8 +533,8 @@ async function planRoute(map, directionsService, portPosition, addedAttractions,
             icons: [
                 {
                     icon: {
-                        path: google.maps.SymbolPath.CIRCLE, // Dotted pattern
-                        scale: 2, // Size of the dots
+                        path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW, // Dotted pattern
+                        scale: 1, // Size of the dots
                         fillOpacity: 1,
                         strokeOpacity: 1,
                         fillColor: "blue",
