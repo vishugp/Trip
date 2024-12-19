@@ -156,7 +156,20 @@ function parseCSV(data) {
   
   let addedAttractions = []; // For keeping track of planned attractions
   // Display local attractions for a port
-  function LocalAttractions(map,  portName, directionsService, directionsRenderer) {
+  function LocalAttractions(map,  portName, directionsService, directionsRenderer,port) {
+      console.log(port.trackURL)
+      const newSrc = `https://w.soundcloud.com/player/?url=${port.trackURL}&auto_play=true`;
+      iframeElement.src = newSrc;
+
+      widget.load(port.trackURL, { auto_play: true }, function(error) {
+        console.log("checking");
+        if (error) {
+            console.error("Error loading track:", error);
+        } else {
+            widget.play();
+        }
+    });
+
     fetch("data/local_attractions.csv")
       .then((response) => response.text())
       .then((csvData) => {
@@ -484,7 +497,6 @@ async function planRoute(map, directionsService, portPosition, addedAttractions,
             <a href="${attraction.gview}" style="color: ${markerColor};">
               <strong>#${index + 1} ${attraction.name}</strong>
             </a><br>
-            <i>${attraction.notes}</i><p></p>
           `;
         });
       } else {
@@ -540,6 +552,7 @@ async function planRoute(map, directionsService, portPosition, addedAttractions,
 
 const iframeElement = document.getElementById("soundcloud-player");
 const widget = SC.Widget(iframeElement);
+widget.setVolume(27);
   
   // Initialize the map and render routes/ports
   function initMap() {
@@ -608,14 +621,9 @@ const widget = SC.Widget(iframeElement);
             document.getElementById("route-legs").innerHTML = ``
 
             currport = port.position
-            LocalAttractions(map, port.port, directionsService, directionsRenderer);
+            LocalAttractions(map, port.port, directionsService, directionsRenderer, port);
 
-            console.log(port.trackURL)
-            const newSrc = `https://w.soundcloud.com/player/?url=${port.trackURL}&auto_play=true`;
-            iframeElement.src = newSrc;
-
-            // Reload the SoundCloud widget and play
-            widget.load(data.trackURL, { auto_play: true });
+            
 
           });
 

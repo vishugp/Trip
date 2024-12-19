@@ -41,7 +41,7 @@ header p {
 /* Sidebar styling */
 #info-sidebar {
     position: fixed;
-    top: 10px;
+    top: 1000px;
     left: 10px;
     background: #ffffff;
     padding: 10px;
