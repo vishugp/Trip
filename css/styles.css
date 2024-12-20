@@ -41,7 +41,7 @@ header p {
 /* Sidebar styling */
 #info-sidebar {
     position: fixed;
-    top: 10px;
+    top: 100px;
     left: 10px;
     background: #ffffff;
     padding: 10px;
@@ -64,11 +64,27 @@ header p {
     font-weight:bold;
 }
 
+#home-button {
+    position: absolute;
+    top: 10px;
+    left: 240px;  /* Changed from right: 50px to left: 10px */
+    background-color: white;
+    border: 2px solid #ccc;
+    border-radius: 12px;
+    padding: 8px;
+    /* margin: 10px; */
+    cursor: pointer;
+    font-size: 15px;
+    z-index: 1000;
+    /* box-shadow: 0 2px 4px rgba(0,0,0,0.2); */
+    transition: background-color 0.3s ease;
+}
+  
 
 #main-sidebar {
     position: fixed;
     max-height: 98vh;
-    top: 10px;
+    top: 1000px;
     right: 10px;
     background: #ffffff;
     padding: 10px;

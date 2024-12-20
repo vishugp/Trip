@@ -10,6 +10,8 @@ Thera Ruins,7,History,Santorini,36.3636178,25.4777581,3,"Ancient Thera Ruins",ht
 Perivolos Beach,8,Chill,Santorini,36.3453616,25.4645885,5,"BEACH!",https://maps.app.goo.gl/3JEbuL39XTv5Mwfc9,0,,,
 Kamari Beach,9,Chill,Santorini,36.3759451,25.4856227,2,"BEACH!",https://maps.app.goo.gl/vbCRh9RyACMrxoBUA,0,,,
 
+
+name,rank,type,port,latitude,longitude,time,notes,gview,cost,best_times,CCLink,GYG
 Ephesus Ruins,1,History,Kusadasi,37.9355825,27.3460919,3,Ancient city ruins including the Library of Celsus,https://maps.app.goo.gl/2KHhXmfFNALNn9XJ8,22
 Temple of Artemis,2,Religion,Kusadasi,37.9495775,27.3637167,2.5,Former Wonder of Ancient World,https://maps.app.goo.gl/iFFUHB32cfPV8CMD8,18
 House of Virgin Mary,2,Religion,Kusadasi,37.911684,27.334045,2,Holy site - Virgin Mary's last home,https://maps.app.goo.gl/ihhPVqhkgTgMZhFx9,21
@@ -18,6 +20,7 @@ Kusadasi Bazaar,4,Shopping,Kusadasi,37.8600086,27.2565198,2,Lively market with l
 Ladies Beach,5,Chill,Kusadasi,37.8448396,27.2427905,2,BEACH!,https://maps.app.goo.gl/4ShsEuJeC1JsfSkq6,
 
 
+name,rank,type,port,latitude,longitude,time,notes,gview,cost,best_times,CCLink,GYG
 Little Venice,1,Nature,Mykonos,37.4466755,25.3267702,2,Seaside area with iconic views and charming cafes,https://maps.app.goo.gl/rcvXvCyk8ebrTbmA6,
 Windmills of Mykonos,2,Nature,Mykonos,37.4445974,25.3258197,1,Historic windmills overlooking the sea,https://maps.app.goo.gl/6Zmg8c8NoNiCPVev6,
 Mykonos Town (Chora),3,Shopping,Mykonos,37.4467355,25.3289692,3,Lively town with boutiques and restaurants,https://maps.app.goo.gl/XKoAo6p5Dp9xz7XB8,
@@ -26,23 +29,34 @@ Super Paradise Beach,5,Chill,Mykonos,37.4149394,25.368819,2,Crystal-clear waters
 Delos Island,6,History,Mykonos,37.4012859,25.2687502,4,UNESCO World Heritage site with archaeological ruins,https://maps.app.goo.gl/MZfrY1MKG1M2GYbz7,
 
 
-Athanasakeion Archaeological Museum of Volos,1,History,Volos,39.3517904,22.9615828,2,"Museum showcasing artifacts from Neolithic settlements.",https://www.google.com/maps/place/Athanasakio+Archaeological+Museum+of+Volos/@39.3517756,22.9615751,3a,75y,90t/data=!3m8!1e5!3m6!1sAF1QipNQRWSEj0Tzqp3f7uFwuvQ0uT1sxR3Jt6pbFKhA!2e10!3e10!6shttps:%2F%2Flh5.googleusercontent.com%2Fp%2FAF1QipNQRWSEj0Tzqp3f7uFwuvQ0uT1sxR3Jt6pbFKhA%3Dw203-h360-k-no!7i1080!8i1920!4m9!3m8!1s0x14a76c846d911b55:0x1493deacc824b6c0!8m2!3d39.3519114!4d22.9613717!10e5!14m1!1BCgIgARICCAQ!16s%2Fm%2F02r2pp8!5m2!1e4!1e2?hl=en-US&entry=ttu&g_ep=EgoyMDI0MTIxMS4wIKXMDSoASAFQAw%3D%3D,5
-Centaurs' Path,2,Nature,Volos,39.4105657,22.9945562,2,"Scenic trail associated with centaur mythology.",https://maps.app.goo.gl/YmKLWmA8NF8Up5Qq9,0
-The Rooftile and Brickworks Museum N. & S. Tsalapatas,3,History,Volos,39.3604897,22.9323506,1,"Industrial heritage museum focusing on traditional manufacturing.",https://maps.app.goo.gl/2SGTHqS2UZySsz2G6,3
-Volos Port,4,Chill,Volos,39.3616935,22.9422237,1,"Bustling harbor for walks, dining, and local activities.",https://maps.app.goo.gl/N9Ez74X4MRcRteP46,0
-Makrinitsa Village,5,Nature,Volos,39.421537,22.996195,3,"Traditional village known as the 'Balcony of Pelion'.",https://maps.app.goo.gl/MNfXMEgSBUZbfCHe7,0
-Pelion Railway (Moutzouris),6,History,Volos,39.3483477,22.9452254,4,"Historic narrow-gauge railway through Pelion.",https://maps.app.goo.gl/X2ty3QfRCqLYVnGu6,10
-Anavros Park,7,Nature,Volos,39.3598375,22.9509346,1,"Coastal park ideal for walks and sea views.",https://maps.app.goo.gl/3dVaPy8YfHNaQ3Lf6,0
-Volos Municipal Theatre,8,Others,Volos,39.3626829,22.942676,2,"Cultural venue hosting performances.",https://maps.app.goo.gl/RL5PGFQ7h1G5Lkq57,10
+name,rank,type,port,latitude,longitude,time,notes,gview,cost,best_times,CCLink,GYG
+Athanasakeion Arch Museum,1,History,Volos,39.3517904,22.9615828,2,"Museum showcasing artifacts from Neolithic settlements.",https://maps.app.goo.gl/XD9z3mgzPN9MMdk17,4,,https://www.celebritycruises.com/shore-excursions/vol/volos-greece/volos-and-makrynitsa/y3m6,
+Centaurs' Path,2,Nature,Volos,39.3925433,22.999017,2,"Scenic trail associated with centaur mythology",https://maps.app.goo.gl/XNembF3baAGiRRyV6,3,,
+Volos Port,3,Chill,Volos,39.3587558,22.9444653,1,"Bustling harbor for walks, dining, and local activities.",https://maps.app.goo.gl/N9Ez74X4MRcRteP46,0
+Makrinitsa Village,4,Nature,Volos,39.4018343,22.9861824,3,"Traditional village known as the 'Balcony of Pelion'",https://maps.app.goo.gl/ttVzXJZmLW9DnFfs6,0,
+Pelion Railway (Moutzouris),5,History,Volos,39.3255027,23.0537622,4,"Historic narrow-gauge railway through Pelion.",https://maps.app.goo.gl/iq2GvDoWWcyKKAgU9,10
+Anavros Park,6,Nature,Volos,39.3509783,22.9598733,1,"Coastal park ideal for walks and sea views.",https://maps.app.goo.gl/L2y5gmSXKLcCLNVs5,0
 
 
-White Tower of Thessaloniki,1,History,Thessaloniki,40.626389,22.948333,1,"Historic tower and museum, symbol of the city.",https://maps.app.goo.gl/WhiteTowerThessaloniki,8
-Church of Saint Demetrios,2,Religion,Thessaloniki,40.640063,22.944419,1,"Byzantine church dedicated to the patron saint of the city.",https://maps.app.goo.gl/ChurchOfSaintDemetrios,0
-Arch Museum of Thessaloniki,3,Museum,Thessaloniki,40.626667,22.948056,2,"Museum showcasing artifacts from Macedonia's history.",https://maps.app.goo.gl/ArchaeologicalMuseumThessaloniki,8
-Rotunda of Galerius,4,History,Thessaloniki,40.633333,22.95,1,"Circular building from the 4th century, initially a mausoleum.",https://maps.app.goo.gl/RotundaThessaloniki,6
-Arch of Galerius,5,History,Thessaloniki,40.633611,22.950278,0.5,"Triumphal arch commemorating Roman Emperor Galerius's victory.",https://maps.app.goo.gl/ArchOfGalerius,0
-Ladadika District,6,Chill,Thessaloniki,40.634722,22.940278,2,"Vibrant area known for nightlife, restaurants, and bars.",https://maps.app.goo.gl/LadadikaDistrict,0
-Ano Poli (Upper Town),7,Nature,Thessaloniki,40.643056,22.951944,2,"Historic district with traditional architecture and panoramic views.",https://maps.app.goo.gl/AnoPoliThessaloniki,0
-Museum of Byzantine Culture,8,Museum,Thessaloniki,40.626111,22.948611,2,"Exhibits on Byzantine art and civilization.",https://maps.app.goo.gl/MuseumOfByzantineCulture,8
-Aristotelous Square,9,Chill,Thessaloniki,40.6325,22.940278,1,"Main city square, hub for social and cultural events.",https://maps.app.goo.gl/AristotelousSquare,0
-Modiano Market,10,Shopping,Thessaloniki,40.634167,22.9425,1,"Traditional market offering local foods and products.",https://maps.app.goo.gl/ModianoMarket,0
+name,rank,type,port,latitude,longitude,time,notes,gview,cost,best_times,CCLink,GYG
+White Tower of Thessaloniki,1,History,Thessaloniki,40.626453,22.9484437,2,"Historic tower and museum - symbol of the city.",https://maps.app.goo.gl/bqDe2p7fnq8QYkue6,8,"8am-3pm",https://www.celebritycruises.com/shore-excursions/skg/thessaloniki-greece/destination-highlight-panoramic-tour/ti18,
+Church of Saint Demetrios,2,Religion,Thessaloniki,40.6389103,22.9476171,2,"Byzantine church dedicated to the patron saint of the city.",https://maps.app.goo.gl/iQEKButCYToxygDC8,0,7-12AM and 5-7PM,https://www.celebritycruises.com/shore-excursions/skg/thessaloniki-greece/destination-highlight-city-highlights/ti15,
+Arch Museum of Thessaloniki,3,History,Thessaloniki,40.6255544,22.9537047,2,"Museum showcasing artifacts from Macedonia's history.",https://maps.app.goo.gl/U2hr5fUbh2oTWJPR9,8,9AM to 5PM,https://www.celebritycruises.com/shore-excursions/skg/thessaloniki-greece/destination-highlight-panoramic-tour/ti18,
+Rotunda of Galerius,4,History,Thessaloniki,40.6333107,22.9528941,1,"Circular building from the 4th century, initially a mausoleum.",https://maps.app.goo.gl/9XYVU1g1CTaRCox26,2,8:30AM - 5:30PM,https://www.celebritycruises.com/shore-excursions/skg/thessaloniki-greece/destination-highlight-city-highlights/ti15,
+Arch of Galerius,5,History,Thessaloniki,40.6322303,22.9517531,0.5,"Triumphal arch commemorating Roman Emperor Galerius's victory.",https://maps.app.goo.gl/hnASRLrQbeSPNmhB8,0,Anytime,https://www.celebritycruises.com/shore-excursions/skg/thessaloniki-greece/destination-highlight-city-highlights/ti15,
+Aristotelous Square,6,Chill,Thessaloniki,40.6323526,22.9408549,1,"Main city square, hub for social and cultural events.",https://maps.app.goo.gl/uZSP7KPgkJuRRZYe7,0,Anytime,https://www.celebritycruises.com/shore-excursions/skg/thessaloniki-greece/destination-highlight-panoramic-tour/ti18,
+Bey Hamami,7,History,Thessaloniki,40.6358045,22.9450035,2,"Restored stone bathhouse dating to 1444, with original marble seats, a massage table & ornate domes.",https://maps.app.goo.gl/86vUyCGveJ9b5emH6,0,8AM - 3PM,,
+Museum of Byzantine Culture,8,History,Thessaloniki,40.6239412,22.9552012,2,"Exhibits on Byzantine art and civilization.",https://maps.app.goo.gl/nVYpKjdbHQYAioYH7,8,8:30AM - 3:30PM,,
+Modiano Market,9,Shopping,Thessaloniki,40.6352357,22.941997,2,"Traditional market offering local foods and products.",https://maps.app.goo.gl/sGWnfngaedtxZR3Q8,0,Anytime,,
+
+
+name,rank,type,port,latitude,longitude,time,notes,gview,cost,best_times,CCLink,GYG
+Acropolis of Athens,1,History,Athens,37.9715025,23.725764,3,"UNESCO World Heritage site featuring the Parthenon and other iconic structures from Ancient Greece.",https://maps.app.goo.gl/MDrYcLiVr6GDF9kZ9,20,"8AM - 8PM (summer); 8AM - 5PM (winter)"
+Acropolis Museum,2,History,Athens,37.9684499,23.7285227,2.5,"Modern museum housing artifacts from the Acropolis.",https://maps.app.goo.gl/ojS9ZDS3e4RKnKGU9,15,"9AM - 8PM (summer); 9AM - 5PM (winter)",
+Plaka District,3,Shopping,Athens,37.9747573,23.7313102,2,"Historic neighborhood with cobbled streets; shops; and traditional taverns.",https://maps.app.goo.gl/3T8dE8dzo2CEydXKA,0,"Morning or Evening",
+Temple of Olympian Zeus,4,History,Athens,37.9693011,23.733136,1.5,"Ruins of a colossal temple dedicated to Zeus.",https://maps.app.goo.gl/K9XHL2di3sNwh5WH7,8,"8AM - 8PM (summer); 8AM - 3PM (winter)",
+Syntagma Square,5,Chill,Athens,37.9755572,23.7348886,1,"Main square in Athens; famous for the Changing of the Guard at the Hellenic Parliament.",https://maps.app.goo.gl/RwNnMT86MKd22e8A7,0,Anytime,
+National Archaeological Museum,6,History,Athens,37.9890281,23.7327618,3,"One of the world's greatest museums showcasing ancient Greek art and artifacts.",https://maps.app.goo.gl/x3EumiZF6kJVeq9y8,12,"9AM - 4PM (winter); 9AM - 8PM (summer)",
+Mount Lycabettus,7,Nature,Athens,37.9817878,23.7430481,2,"Athens' highest point offering panoramic city views.",https://maps.app.goo.gl/3MjDybsneFD3gMMTA,0,"Late Afternoon or Sunset",
+Monastiraki Flea Market,8,Shopping,Athens,37.9762522,23.72562,2,"Bustling market with souvenirs; antiques; and local goods.",https://maps.app.goo.gl/KCc1zuevdqMPBYpD8,0,"Morning or Afternoon",
+Ancient Agora of Athens,9,History,Athens,37.9748893,23.7220075,2,"Marketplace and center of ancient Athenian life.",https://maps.app.goo.gl/uKkXwvFzGxiGZea3A,8,"8AM - 8PM (summer); 8AM - 5PM (winter)",

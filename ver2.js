@@ -492,7 +492,7 @@ async function planRoute(map, directionsService, portt, addedAttractions, direct
       // Start with port details
       let main_content = ``
       let content = `
-        <h3>${port.port}, ${port.country} - Day ${port.day}</h3>
+        <h3>${port.port}, ${port.country}<br>Day ${port.day}</h3>
         <b>Arrival ${port.arrival} AM - Departure ${port.departure} PM</b><br>
         <i>Effective Time at Port: ${port.efftime} hrs</i><hr>
       `;
@@ -577,6 +577,48 @@ widget.setVolume(27);
       zoom: 6.6,
     });
   
+    // Create home button
+    const homeButton = document.createElement("button");
+    homeButton.id = "home-button";
+    homeButton.textContent = "🏠";
+    
+    
+    // Add hover effect
+    homeButton.addEventListener("mouseover", () => {
+      homeButton.style.backgroundColor = "#f0f0f0";
+    });
+    homeButton.addEventListener("mouseout", () => {
+      homeButton.style.backgroundColor = "white";
+    });
+    
+    // Function to reset to default view
+    const resetToDefault = () => {
+      map.setCenter({ lat: 38.9365963, lng: 25.6210059 });
+      map.setZoom(6.6);
+      clearMarkers();
+      clearPaths();
+      document.getElementById("route-planner").style.display = "none";
+      document.getElementById("port-info").innerHTML = `<h1>Welcome to the Greece Trip Planner!</h1><p>Select a port on the map to view further details</p> `;
+      document.getElementById("port-info2").innerHTML = ` <h2 style="text-align: center;"><u>7 Nights Cruise<br> Best of Greece</u></h2>
+        <h3>Itinerary</h3>
+        <li><strong>Day 1:</strong> Athens (Piraeus), Greece</li>
+        <li><strong>Day 2:</strong> Santorini, Greece</li>
+        <li><strong>Day 3:</strong> Kusadasi, Turkey</li>
+        <li><strong>Day 4:</strong> Mykonos, Greece</li>
+        <li><strong>Day 5:</strong> Volos, Greece</li>
+        <li><strong>Day 6:</strong> Thessaloniki, Greece</li>
+        <li><strong>Day 7:</strong> Back to Athens, Greece</li>`;
+      document.getElementById("route-summary").innerHTML = "";
+      document.getElementById("route-legs").innerHTML = "";
+      addedAttractions = [];
+    };
+    
+    homeButton.addEventListener("click", resetToDefault);
+    
+    // Add the home button to the map
+    // map.controls[google.maps.ControlPosition.TOP_LEFT].push(homeButton);
+    document.body.appendChild(homeButton);
+
     const directionsService = new google.maps.DirectionsService();
   
     let dummy = '';
@@ -584,6 +626,7 @@ widget.setVolume(27);
       .then((response) => response.text())
       .then((csvData) => {
         const ports = parseCSV(csvData);
+
 
 
   
