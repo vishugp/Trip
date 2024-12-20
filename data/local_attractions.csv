@@ -1,14 +1,14 @@
-name,rank,type,port,latitude,longitude,time,notes,gview,cost
+name,rank,type,port,latitude,longitude,time,notes,gview,cost,best_times,CCLink,GYG
 
-Oia Village,1,Nature,Santorini,36.4600862,25.372933,5,Whitewashed houses carved into the rugged clifftops,https://maps.app.goo.gl/7ZByAp6dsSDmNt8o6,
-Fira - Capital City,2,History,Santorini,36.4167991,25.4326657,2,Museum with ancient artifacts on Santorini.,https://maps.app.goo.gl/KfY2LqC6bixzsxVY6,15
-Akrotiri Ruins,3,History,Santorini,36.3518579,25.4034147,2,Ancient Excavation of Bronze Age settlement.,https://maps.app.goo.gl/6Gjs2FGyxoFvUpFe6,15
-Brewery & Cooking Class,4,Others,Santorini,36.4073877,25.4365634,4.5,"Ftelos Brewery and 4-course meal by a professional chef",https://maps.app.goo.gl/6FxtzkGy8Ptk5n3M6,100
-Kayaking,5,Chill,Santorini,36.3611098,25.404813,4.5,"Kayaking in the Aegean Sea",https://maps.app.goo.gl/FkXXrvcp8NAM8G5B7,130
-Thera Ruins,6,History,Santorini,36.3636178,25.4777581,3,"Ancient Thera Ruins",https://maps.app.goo.gl/d89eoWqQMsoky22P7,0
-Perivolos Beach,7,Chill,Santorini,36.3453616,25.4645885,5,"BEACH!",https://maps.app.goo.gl/3JEbuL39XTv5Mwfc9,0
-Kamari Beach,8,Chill,Santorini,36.3759451,25.4856227,2,"BEACH!",https://maps.app.goo.gl/vbCRh9RyACMrxoBUA,0
-
+Oia Village,1,Nature,Santorini,36.4600862,25.372933,5,Whitewashed houses carved into the rugged clifftops,https://maps.app.goo.gl/7ZByAp6dsSDmNt8o6,0,Early Morning or Late Afternoon,https://www.celebritycruises.com/shore-excursions/jtr/santorini-greece/destination-highlight-island-drive-and-village-oia/soa9,
+Fira - Capital City,2,History,Santorini,36.4167991,25.4326657,2,Museum with ancient artifacts on Santorini.,https://maps.app.goo.gl/KfY2LqC6bixzsxVY6,6,8:30am to 3:30pm,https://www.celebritycruises.com/shore-excursions/jtr/santorini-greece/fira-on-your-own/y7yx,
+Akrotiri Ruins,3,History,Santorini,36.3518579,25.4034147,5,Ancient Excavation of Bronze Age settlement.,https://maps.app.goo.gl/6Gjs2FGyxoFvUpFe6,10,8 am to 2 pm,https://www.celebritycruises.com/shore-excursions/jtr/santorini-greece/destination-highlight-akrotiri-venetsanos-winery-and-village-of-oia/soaa,
+Brewery & Cooking Class,4,Others,Santorini,36.4073877,25.4365634,4.5,"Ftelos Brewery and 4-course meal by a professional chef",https://maps.app.goo.gl/6FxtzkGy8Ptk5n3M6,100,Evening,https://www.celebritycruises.com/shore-excursions/jtr/santorini-greece/ftelos-brewery-cooking-class/y7yy,
+Kayaking,5,Chill,Santorini,36.3611098,25.404813,4.5,"Kayaking in the Aegean Sea",https://maps.app.goo.gl/FkXXrvcp8NAM8G5B7,130,Afternoon,https://www.celebritycruises.com/shore-excursions/jtr/santorini-greece/small-group-santorini-coast-by-kayak/y7yz,
+Local Villages,6,Nature,Santorini,36.3842579,25.4514693,6,"Local Villages of Pyrgos and Meghalochori",https://maps.app.goo.gl/PeqaEU4vXj77yTwa8,50+,Half-day,https://www.celebritycruises.com/shore-excursions/jtr/santorini-greece/destination-highlight-island-villages-and-canava-museum-visit/sob6,
+Thera Ruins,7,History,Santorini,36.3636178,25.4777581,3,"Ancient Thera Ruins",https://maps.app.goo.gl/d89eoWqQMsoky22P7,6,,,
+Perivolos Beach,8,Chill,Santorini,36.3453616,25.4645885,5,"BEACH!",https://maps.app.goo.gl/3JEbuL39XTv5Mwfc9,0,,,
+Kamari Beach,9,Chill,Santorini,36.3759451,25.4856227,2,"BEACH!",https://maps.app.goo.gl/vbCRh9RyACMrxoBUA,0,,,
 
 Ephesus Ruins,1,History,Kusadasi,37.9355825,27.3460919,3,Ancient city ruins including the Library of Celsus,https://maps.app.goo.gl/2KHhXmfFNALNn9XJ8,22
 Temple of Artemis,2,Religion,Kusadasi,37.9495775,27.3637167,2.5,Former Wonder of Ancient World,https://maps.app.goo.gl/iFFUHB32cfPV8CMD8,18
@@ -26,7 +26,7 @@ Super Paradise Beach,5,Chill,Mykonos,37.4149394,25.368819,2,Crystal-clear waters
 Delos Island,6,History,Mykonos,37.4012859,25.2687502,4,UNESCO World Heritage site with archaeological ruins,https://maps.app.goo.gl/MZfrY1MKG1M2GYbz7,
 
 
-Athanasakeion Archaeological Museum of Volos,1,History,Volos,39.3635915,22.9426533,2,"Museum showcasing artifacts from Neolithic settlements.",https://maps.app.goo.gl/6ZNcdmzJtnLtzToj7,5
+Athanasakeion Archaeological Museum of Volos,1,History,Volos,39.3517904,22.9615828,2,"Museum showcasing artifacts from Neolithic settlements.",https://www.google.com/maps/place/Athanasakio+Archaeological+Museum+of+Volos/@39.3517756,22.9615751,3a,75y,90t/data=!3m8!1e5!3m6!1sAF1QipNQRWSEj0Tzqp3f7uFwuvQ0uT1sxR3Jt6pbFKhA!2e10!3e10!6shttps:%2F%2Flh5.googleusercontent.com%2Fp%2FAF1QipNQRWSEj0Tzqp3f7uFwuvQ0uT1sxR3Jt6pbFKhA%3Dw203-h360-k-no!7i1080!8i1920!4m9!3m8!1s0x14a76c846d911b55:0x1493deacc824b6c0!8m2!3d39.3519114!4d22.9613717!10e5!14m1!1BCgIgARICCAQ!16s%2Fm%2F02r2pp8!5m2!1e4!1e2?hl=en-US&entry=ttu&g_ep=EgoyMDI0MTIxMS4wIKXMDSoASAFQAw%3D%3D,5
 Centaurs' Path,2,Nature,Volos,39.4105657,22.9945562,2,"Scenic trail associated with centaur mythology.",https://maps.app.goo.gl/YmKLWmA8NF8Up5Qq9,0
 The Rooftile and Brickworks Museum N. & S. Tsalapatas,3,History,Volos,39.3604897,22.9323506,1,"Industrial heritage museum focusing on traditional manufacturing.",https://maps.app.goo.gl/2SGTHqS2UZySsz2G6,3
 Volos Port,4,Chill,Volos,39.3616935,22.9422237,1,"Bustling harbor for walks, dining, and local activities.",https://maps.app.goo.gl/N9Ez74X4MRcRteP46,0
@@ -38,7 +38,7 @@ Volos Municipal Theatre,8,Others,Volos,39.3626829,22.942676,2,"Cultural venue ho
 
 White Tower of Thessaloniki,1,History,Thessaloniki,40.626389,22.948333,1,"Historic tower and museum, symbol of the city.",https://maps.app.goo.gl/WhiteTowerThessaloniki,8
 Church of Saint Demetrios,2,Religion,Thessaloniki,40.640063,22.944419,1,"Byzantine church dedicated to the patron saint of the city.",https://maps.app.goo.gl/ChurchOfSaintDemetrios,0
-Archaeological Museum of Thessaloniki,3,Museum,Thessaloniki,40.626667,22.948056,2,"Museum showcasing artifacts from Macedonia's history.",https://maps.app.goo.gl/ArchaeologicalMuseumThessaloniki,8
+Arch Museum of Thessaloniki,3,Museum,Thessaloniki,40.626667,22.948056,2,"Museum showcasing artifacts from Macedonia's history.",https://maps.app.goo.gl/ArchaeologicalMuseumThessaloniki,8
 Rotunda of Galerius,4,History,Thessaloniki,40.633333,22.95,1,"Circular building from the 4th century, initially a mausoleum.",https://maps.app.goo.gl/RotundaThessaloniki,6
 Arch of Galerius,5,History,Thessaloniki,40.633611,22.950278,0.5,"Triumphal arch commemorating Roman Emperor Galerius's victory.",https://maps.app.goo.gl/ArchOfGalerius,0
 Ladadika District,6,Chill,Thessaloniki,40.634722,22.940278,2,"Vibrant area known for nightlife, restaurants, and bars.",https://maps.app.goo.gl/LadadikaDistrict,0

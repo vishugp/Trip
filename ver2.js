@@ -24,8 +24,9 @@ function parseCSV(data) {
           attraction: row.attraction,
           type: row.type,
           description: row.description,
-          arrival: row.arrival,
-          departure: row.departure,
+          arrival: parseInt(row.arrival),
+          departure: parseInt(row.departure),
+          efftime: parseInt(row.departure) + 12 - parseInt(row.arrival) -3,
           position: {
             lat: parseFloat(row.latitude),
             lng: parseFloat(row.longitude),
@@ -41,7 +42,7 @@ function parseCSV(data) {
   function parseLocalAttractions(data) {
     const rows = data.split("\n").slice(1);
     return rows.map((row) => {
-      const [name, rank, type, port, latitude, longitude, time, notes, gview] = row.split(",");
+      const [name, rank, type, port, latitude, longitude, time, notes, gview,cost,best_times,CCLink,GYG] = row.split(",");
       return {
         name,
         rank,
@@ -54,6 +55,10 @@ function parseCSV(data) {
         time,
         notes,
         gview,
+        cost,
+        best_times,
+        CCLink,
+        GYG
       };
     });
   }
@@ -157,12 +162,12 @@ function parseCSV(data) {
   let addedAttractions = []; // For keeping track of planned attractions
   // Display local attractions for a port
   function LocalAttractions(map,  portName, directionsService, directionsRenderer,port) {
-      console.log(port.trackURL)
+      
       const newSrc = `https://w.soundcloud.com/player/?url=${port.trackURL}&auto_play=true`;
       iframeElement.src = newSrc;
 
       widget.load(port.trackURL, { auto_play: true }, function(error) {
-        console.log("checking");
+        
         if (error) {
             console.error("Error loading track:", error);
         } else {
@@ -279,6 +284,7 @@ function parseCSV(data) {
           const draggableCircle = document.createElement("div");
           draggableCircle.className = "draggable-circle";
           draggableCircle.draggable = true;
+          draggableCircle.style.display = "flex";
           draggableCircle.innerText = `${index + 1}`;
           draggableCircle.style.backgroundColor = markerColor;
           draggableCircle.style.borderColor = "black";
@@ -326,20 +332,28 @@ function parseCSV(data) {
               const { duration, polyline } = await drawRoute(
                 directionsService,
                 directionsRenderer,
-                currport,
+                currport.position,
                 attraction.position,
                 "black"
               );
               hasRouteDrawn = true;
               currentRoute = polyline;
 
+              let CCLinkHTML = attraction.CCLink 
+              ? `<a href="${attraction.CCLink}" style="color: ${markerColor};">CelebCruise Excursion Link</a>` 
+              : "";
+
               infoWindow.setContent(`
                 <div>
                   <strong>Attraction #${index + 1}: ${attraction.name}</strong><br/>
-                  ${attraction.notes}<br><br>
+                  ${attraction.notes}<br>
+                  Best Times to be here: ${attraction.best_times}<br><br>
+                  
+                  Cost: £${attraction.cost}<br>
                   Trip Time (1-way): ${duration}<br/>
-                  Time to Spend: ${attraction.time}<br/>
-                  <a href="${attraction.gview}" style="color: ${markerColor};">Google View</a><br/>
+                  Time to Spend: ${attraction.time} hrs<br/>
+                  <a href="${attraction.gview}" style="color: ${markerColor};">Google View</a><br/><br>
+                  ${CCLinkHTML}
                 </div>
               `);
             } catch (error) {
@@ -357,10 +371,7 @@ function parseCSV(data) {
           });
         });
   
-        // let button = document.getElementById("plot-route-btn");
-        // button.onclick = () => {
-        //   planRoute(map, directionsService, portPosition, addedAttractions, directionsRenderer, true);
-        // }
+        
         
       });
   }
@@ -368,7 +379,7 @@ function parseCSV(data) {
   
 
 
-async function planRoute(map, directionsService, portPosition, addedAttractions, directionsRenderer, rflag) {
+async function planRoute(map, directionsService, portt, addedAttractions, directionsRenderer, rflag) {
   if (addedAttractions.length === 0 && rflag == true){
     alert("Please drag and drop at least one attraction to the path zone.");
     return;
@@ -381,8 +392,8 @@ async function planRoute(map, directionsService, portPosition, addedAttractions,
   }));
 
   const request = {
-    origin: portPosition,
-    destination: portPosition,
+    origin: portt.position,
+    destination: portt.position,
     waypoints: waypoints,
     travelMode: google.maps.TravelMode.DRIVING,
     optimizeWaypoints: false,
@@ -451,8 +462,12 @@ async function planRoute(map, directionsService, portPosition, addedAttractions,
           
           if(rflag != false){
             // Update the route summary on the webpage
-            document.getElementById("route-summary").innerHTML = `<b><hr>Total Travel Time:</b> ${tot} ${dur}<hr>
-            <b><br>Time Taken for Each Segment:</b><br><br>`;
+            let tott = `${tot} ${dur}`
+            if(dur=="hrs" & tot>portt.efftime){
+              console.log("RED")
+              tott = `<span class="red-text">` + tott + `</span>`;
+            }
+            document.getElementById("route-summary").innerHTML = `<b><hr>Total Travel Time: </b>` + tott + `<hr><b><br>Time Taken for Each Segment:</b><br><br>`;
 
             document.getElementById("route-legs").innerHTML = `${segmentDetails}`;
           } else {
@@ -478,7 +493,8 @@ async function planRoute(map, directionsService, portPosition, addedAttractions,
       let main_content = ``
       let content = `
         <h3>${port.port}, ${port.country} - Day ${port.day}</h3>
-        <b><i>Arrival ${port.arrival} - Departure ${port.departure}</b></i><hr>
+        <b>Arrival ${port.arrival} AM - Departure ${port.departure} PM</b><br>
+        <i>Effective Time at Port: ${port.efftime} hrs</i><hr>
       `;
 
       content += `
@@ -578,8 +594,8 @@ widget.setVolume(27);
           //   map: map,
           //   title: `${port.port}`,
           // });
-          console.log(port);
-          dummy = port.position;
+          
+          dummy = port;
           const marker = new google.maps.Marker({
             position: port.position,
             map: map,
@@ -620,7 +636,7 @@ widget.setVolume(27);
             document.getElementById("route-summary").innerHTML = ``
             document.getElementById("route-legs").innerHTML = ``
 
-            currport = port.position
+            currport = port;
             LocalAttractions(map, port.port, directionsService, directionsRenderer, port);
 
             
@@ -629,9 +645,10 @@ widget.setVolume(27);
 
           
         });
+        console.log(dummy.port);
+        planRoute(map, directionsService, dummy, [], directionsRenderer, false);
       });
 
       
-      planRoute(map, directionsService, dummy, [], directionsRenderer, false);
   }
   
