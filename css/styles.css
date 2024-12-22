@@ -84,7 +84,7 @@ header p {
 #main-sidebar {
     position: fixed;
     max-height: 98vh;
-    top: 1000px;
+    top: 10px;
     right: 10px;
     background: #ffffff;
     padding: 10px;
