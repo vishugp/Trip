@@ -17,6 +17,7 @@
     </style>
   </head>
   <body>
+    <script src="images/mapsJavaScriptAPI.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
 
     <!-- Hidden SoundCloud iframe -->
@@ -48,8 +49,13 @@
     <div id="map"></div>
     <script src = "ver2.js"></script>
     <!-- <script src = "port_tracer.js"></script> -->
-    <script src="mapsJavaScriptAPI.js"></script>
-
+    
+    <!-- The Token is restricted by HTTP referrers, so it is safe -->
+    <script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhJHJqqO21aYryAy6gLVBEVnrnA7Vhnr4&callback=initMap">
+    </script>
+    
+    
     <aside id="main-sidebar">
       
       <div id="port-info2">
